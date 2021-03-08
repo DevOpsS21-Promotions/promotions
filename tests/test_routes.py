@@ -46,27 +46,27 @@ class TestYourResourceServer(TestCase):
         resp = self.app.get("/")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
 
-   def test_create_promotion(self):
+    def test_create_promotion(self):
         """ Test create promotion"""
         resp = self.app.get("/")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
 
-   def test_delete_promotion(self):
+    def test_delete_promotion(self):
         """ Test delete promotion"""
         resp = self.app.get("/")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
 
-   def test_get_promotion(self):
+    def test_get_promotion(self):
         """ Test get promotion"""
         resp = self.app.get("/")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
 
-   def test_get_all_promotion(self):
+    def test_get_all_promotion(self):
         """ Test get all promotion"""
         resp = self.app.get("/")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
 
-   def test_update_promotion(self):
+    def test_update_promotion(self):
         """ Test update promotion"""
         resp = self.app.get("/")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)

@@ -55,15 +55,15 @@ class TestPromotions(unittest.TestCase):
         """ Test Serialize Promotion """
         self.assertTrue(True)
 
-   def test_deserialize_promotion(self):
+    def test_deserialize_promotion(self):
         """ Test Deserialize Promotion """
         self.assertTrue(True)
 
-   def test_find_by_name(self):
+    def test_find_by_name(self):
         """ Find a Promotion by Name """
         self.assertTrue(True)
 
-   def test_find_or_404_found(self):
+    def test_find_or_404_found(self):
         """ Find or return 404 found """
         self.assertTrue(True)
 
