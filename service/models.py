@@ -5,12 +5,14 @@ All of the models are stored in this module
 """
 import logging
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 logger = logging.getLogger("flask.app")
 
 # Create the SQLAlchemy object to be initialized later in init_db()
 db = SQLAlchemy()
 
+DATETIME = "%Y-%m-%d %H:%M:%S"
 
 class DataValidationError(Exception):
     """ Used for an data validation errors when deserializing """
@@ -30,6 +32,13 @@ class Promotions(db.Model):
     ##################################################
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(63))
+    description = db.Column(db.String(140))
+    promo_code = db.Column(db.Integer())
+    start_date = db.Column(db.DateTime())
+    end_date = db.Column(db.DateTime())
+    modified_date = db.Column(db.DateTime())
+    created_date = db.Column(db.DateTime())
+    is_active = db.Column(db.Boolean())
 
     ##################################################
     # INSTANCE METHODS
