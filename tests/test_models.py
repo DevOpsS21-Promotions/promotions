@@ -117,6 +117,12 @@ class TestPromotions(unittest.TestCase):
         self.assertEqual(promotion.created_date, datetime.strptime('2021-01-01 00:00:00', DATETIME))
         self.assertEqual(promotion.is_active, True)             
 
+    def test_deserialize_bad_promotion_data(self):
+        """ Test deserialization of bad promotion data """
+        data = "this is not a dictionary"
+        promotion = Promotions()
+        self.assertRaises(DataValidationError, promotion.deserialize, data)
+
     def test_find_by_name(self):
         """ Find a Promotion by Name """
         self.assertTrue(True)
