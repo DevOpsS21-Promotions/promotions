@@ -22,7 +22,7 @@ class DataValidationError(Exception):
 
 class Promotions(db.Model):
     """
-    Class that represents a <your resource model name>
+    Class that represents a Promotion
     """
 
     app = None
@@ -31,14 +31,14 @@ class Promotions(db.Model):
     # Table Schema
     ##################################################
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(63))
-    description = db.Column(db.String(140))
-    promo_code = db.Column(db.Integer())
-    start_date = db.Column(db.DateTime())
-    end_date = db.Column(db.DateTime())
-    modified_date = db.Column(db.DateTime())
-    created_date = db.Column(db.DateTime())
-    is_active = db.Column(db.Boolean())
+    name = db.Column(db.String(63), nullable=False)
+    description = db.Column(db.String(140), nullable=False)
+    promo_code = db.Column(db.String(63), nullable=False)
+    start_date = db.Column(db.DateTime(), nullable=False)
+    end_date = db.Column(db.DateTime(), nullable=False)
+    modified_date = db.Column(db.DateTime(), nullable=False)
+    created_date = db.Column(db.DateTime(), nullable=False)
+    is_active = db.Column(db.Boolean(), nullable=False)
 
     ##################################################
     # INSTANCE METHODS
@@ -71,7 +71,17 @@ class Promotions(db.Model):
 
     def serialize(self):
         """ Serializes a Promotions into a dictionary """
-        return {"id": self.id, "name": self.name}
+        return {
+             "id": self.id, 
+             "name": self.name,
+             "description": self.description,
+             "promo_code": self.promo_code,
+             "start_date": datetime.strftime(self.start_date, DATETIME),
+             "end_date": datetime.strftime(self.end_date, DATETIME),
+             "modified_date": datetime.strftime(self.modified_date, DATETIME),
+             "created_date": datetime.strftime(self.created_date, DATETIME),
+             "is_active": self.is_active
+        }
 
     def deserialize(self, data):
         """
@@ -82,6 +92,13 @@ class Promotions(db.Model):
         """
         try:
             self.name = data["name"]
+            self.description = data["description"]
+            self.promo_code = data["promo_code"]
+            self.start_date = datetime.strptime(data["start_date"], DATETIME)
+            self.end_date = datetime.strptime(data["end_date"], DATETIME)
+            self.modified_date = datetime.strptime(data["modified_date"], DATETIME)
+            self.created_date = datetime.strptime(data["created_date"], DATETIME)
+            self.is_active = data["is_active"]
         except KeyError as error:
             raise DataValidationError(
                 "Invalid Promotions: missing " + error.args[0]
