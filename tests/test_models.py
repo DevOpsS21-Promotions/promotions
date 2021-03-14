@@ -49,7 +49,24 @@ class TestPromotions(unittest.TestCase):
 
     def test_create_promotion(self):
         """ Test Create Promotion """
-        self.assertTrue(True)
+        promotion = Promotions(name="Test",
+                               description="Testing Promotion",
+                               promo_code="ABC123",
+                               start_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
+                               end_date=datetime.strptime('2022-01-01 00:00:00', DATETIME),
+                               modified_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
+                               created_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
+                               is_active=True)
+        self.assertTrue(promotion != None)
+        self.assertEqual(promotion.id, None)
+        self.assertEqual(promotion.name, "Test")
+        self.assertEqual(promotion.description, "Testing Promotion")
+        self.assertEqual(promotion.promo_code, "ABC123")
+        self.assertEqual(promotion.start_date, datetime.strptime('2021-01-01 00:00:00', DATETIME))
+        self.assertEqual(promotion.end_date, datetime.strptime('2022-01-01 00:00:00', DATETIME))                               
+        self.assertEqual(promotion.modified_date, datetime.strptime('2021-01-01 00:00:00', DATETIME))
+        self.assertEqual(promotion.created_date, datetime.strptime('2021-01-01 00:00:00', DATETIME))
+        self.assertEqual(promotion.is_active, True)             
 
     def test_find_promotion(self):
         """ Test Find Promotion """
