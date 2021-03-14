@@ -55,6 +55,17 @@ class TestYourResourceServer(TestCase):
         """ Test delete promotion"""
         resp = self.app.get("/")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        test_promotion = self._create_promotion()
+        resp = self.app.delete(
+            "{0}/{1}".format(BASE_URL, test_promotion.id), content_type=CONTENT_TYPE_JSON
+        )
+        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(len(resp.data), 0)
+        # make sure they are deleted
+        resp = self.app.get(
+            "{0}/{1}".format(BASE_URL, test_pet.id), content_type=CONTENT_TYPE_JSON
+        )
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_get_promotion(self):
         """ Test get promotion"""
