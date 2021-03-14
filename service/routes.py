@@ -159,7 +159,7 @@ def get_promotion(promotion_id):
         raise NotFound("Promotion with id '{}' was not found.".format(promotion_id))
 
     app.logger.info("Returning Promotion: %s", promotion.name)
-    return make_response(jsonify(pet.serialize()), status.HTTP_200_OK)
+    return make_response(jsonify(promotion.serialize()), status.HTTP_200_OK)
 
 ######################################################################
 # UPDATE PROMOTION
