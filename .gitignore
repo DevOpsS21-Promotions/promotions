@@ -130,3 +130,6 @@ dmypy.json
 
 # Vagrant
 .vagrant
+
+# Development DB
+development.db
