@@ -6,11 +6,14 @@ Test cases can be run with the following:
   coverage report -m
 """
 import os
+import unittest
 import logging
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
 from flask_api import status  # HTTP Status Codes
-from service.models import db
+from service.models import db, Promotions, DataValidationError
+from .promotion_factory import PromotionsFactory
+from service import app
 from service.routes import app, init_db
 
 ######################################################################
@@ -50,6 +53,13 @@ class TestYourResourceServer(TestCase):
         """ Test create promotion"""
         resp = self.app.get("/")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
+       # for _ in range(count):
+        #    test_promotion = PromotionFactory()
+         
+         #   resp = self.app.post(
+          #      BASE_URL, json=test_pet.serialize(), content_type=CONTENT_TYPE_JSON
+           #     )
+        #self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
 
     def test_delete_promotion(self):
         """ Test delete promotion"""
@@ -70,3 +80,20 @@ class TestYourResourceServer(TestCase):
         """ Test update promotion"""
         resp = self.app.get("/")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        test_promotion = PromotionsFactory()
+        resp = self.app.post(
+            BASE_URL, json=test_pet.serialize(), content_type=CONTENT_TYPE_JSON
+        )
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+
+        # update the pet
+        new_promotion = resp.get_json()
+        new_promotion["description"] = "unknown"
+        resp = self.app.put(
+            "{0}/{1}".format(BASE_URL, new_promotion["name"]),
+            json=new_promotion,
+            content_type=CONTENT_TYPE_JSON,
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        updated_promotion = resp.get_json()
+        self.assertEqual(updated_promotion["description"], "unknown")
