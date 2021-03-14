@@ -65,6 +65,14 @@ def list_promotions():
 def get_promotion(promotion_id):
     """Get promotion"""
 
+    app.logger.info("Request for Promotion with id: %s", promotion_id)
+    promotion = Promotions.find(promotion_id)
+    if not promotion:
+        raise NotFound("Promotion with id '{}' was not found.".format(promotion_id))
+
+    app.logger.info("Returning Promotion: %s", promotion.name)
+    return make_response(jsonify(pet.serialize()), status.HTTP_200_OK)
+
 ######################################################################
 # UPDATE PROMOTION
 ######################################################################
