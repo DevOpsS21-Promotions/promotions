@@ -138,22 +138,19 @@ class TestYourResourceServer(TestCase):
 
     def test_update_promotion(self):
         """ Test update promotion"""
-        resp = self.app.get("/")
-        self.assertEqual(resp.status_code, status.HTTP_200_OK)
-        test_promotion = PromotionsFactory()
+        test_promotion = self._create_promotion()
         resp = self.app.post(
-            BASE_URL, json=test_pet.serialize(), content_type=CONTENT_TYPE_JSON
-        )
+            "/promotions", json=test_promotion.serialize(), content_type=CONTENT_TYPE_JSON
+        )        
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
-
-        # update the pet
+        # update the promotion
         new_promotion = resp.get_json()
-        new_promotion["description"] = "unknown"
+        new_promotion["description"] = "Updated Description"
         resp = self.app.put(
-            "{0}/{1}".format(BASE_URL, new_promotion["name"]),
+            "{0}/{1}".format("/promotions", new_promotion["id"]),
             json=new_promotion,
             content_type=CONTENT_TYPE_JSON,
         )
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         updated_promotion = resp.get_json()
-        self.assertEqual(updated_promotion["description"], "unknown")
+        self.assertEqual(updated_promotion["description"], "Updated Description")

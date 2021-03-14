@@ -178,7 +178,7 @@ def update_promotion(promotion_id):
     promotion.update()
 
     app.logger.info("Promotion with ID [%s] updated.", promotion.id)
-    return make_response(jsonify(pet.serialize()), status.HTTP_200_OK)
+    return make_response(jsonify(promotion.serialize()), status.HTTP_200_OK)
 
 ######################################################################
 #  U T I L I T Y   F U N C T I O N S

@@ -90,27 +90,18 @@ class TestPromotions(unittest.TestCase):
 
     def test_update_promotion(self):
         """ Test Update Promotion """
-        self.assertTrue(True)
-        promotion = Promotions(name="Test", 
-        description="Testing Promotion",
-        promo_code="ABC123",
-        start_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
-        end_date=datetime.strptime('2022-01-01 00:00:00', DATETIME),
-        modified_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
-        created_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
-        is_active=True)
-
-        promotion.create()
-        self.assertEqual(promotion.id, 1)
+        test_promotion = self._create_promotion()
+        test_promotion.create()
+        self.assertEqual(test_promotion.id, 1)
         # Change it an update it
-        promotion.description = "description"
-        promotion.update()
-        self.assertEqual(promotion.id, 1)
+        test_promotion.description = "Updated Description"
+        test_promotion.update()
+        self.assertEqual(test_promotion.id, 1)
         # Fetch it back and make sure the id hasn't changed
         # but the data did change
-        promotion = Promotions.all()
-        self.assertEqual(len(promotion), 1)
-        self.assertEqual(promotion[0].description, "description")
+        test_promotion = Promotions.all()
+        self.assertEqual(len(test_promotion), 1)
+        self.assertEqual(test_promotion[0].description, "Updated Description")
 
     def test_delete_promotion(self):
         """ Test Delete Promotion """
