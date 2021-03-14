@@ -26,6 +26,8 @@ from service.models import Promotions, DataValidationError
 # Import Flask application
 from . import app
 
+from werkzeug.exceptions import NotFound
+
 ######################################################################
 # Error Handlers
 ######################################################################

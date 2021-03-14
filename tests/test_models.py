@@ -94,19 +94,11 @@ class TestPromotions(unittest.TestCase):
 
     def test_delete_promotion(self):
         """ Test Delete Promotion """
-        self.assertTrue(True)
-        promotion = Promotions(name="Test",
-        description="Testing Promotion",
-        promo_code="ABC123",
-        start_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
-        end_date=datetime.strptime('2022-01-01 00:00:00', DATETIME),
-        modified_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
-        created_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
-        is_active=True)
-        promotion.create()
+        test_promotion = self._create_promotion()
+        test_promotion.create()
         self.assertEqual(len(Promotions.all()), 1)
         # delete the pet and make sure it isn't in the database
-        promotion.delete()
+        test_promotion.delete()
         self.assertEqual(len(Promotions.all()), 0)
         
 
