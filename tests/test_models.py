@@ -43,20 +43,24 @@ class TestPromotions(unittest.TestCase):
         db.session.remove()
         db.drop_all()
 
-    ######################################################################
-    #  T E S T   C A S E S
-    ######################################################################
-
-    def test_create_promotion(self):
-        """ Test Create Promotion """
-        promotion = Promotions(name="Test",
+    def _create_promotion(self):
+        return Promotions(name="Test",
                                description="Testing Promotion",
                                promo_code="ABC123",
                                start_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
                                end_date=datetime.strptime('2022-01-01 00:00:00', DATETIME),
                                modified_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
                                created_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
-                               is_active=True)
+                               is_active=True
+        )
+
+    ######################################################################
+    #  T E S T   C A S E S
+    ######################################################################
+
+    def test_create_promotion(self):
+        """ Test Create Promotion """
+        promotion = self._create_promotion()
         self.assertTrue(promotion != None)
         self.assertEqual(promotion.id, None)
         self.assertEqual(promotion.name, "Test")
@@ -82,14 +86,7 @@ class TestPromotions(unittest.TestCase):
 
     def test_serialize_promotion(self):
         """ Test Serialize Promotion """
-        promotion = Promotions(name="Test",
-                               description="Testing Promotion",
-                               promo_code="ABC123",
-                               start_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
-                               end_date=datetime.strptime('2022-01-01 00:00:00', DATETIME),
-                               modified_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
-                               created_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
-                               is_active=True)
+        promotion = self._create_promotion()
         data = promotion.serialize()
         self.assertNotEqual(data, None)
         self.assertIn("id", data)
@@ -113,14 +110,7 @@ class TestPromotions(unittest.TestCase):
 
     def test_deserialize_promotion(self):
         """ Test Deserialize Promotion """
-        promotion = Promotions(name="Test",
-                               description="Testing Promotion",
-                               promo_code="ABC123",
-                               start_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
-                               end_date=datetime.strptime('2022-01-01 00:00:00', DATETIME),
-                               modified_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
-                               created_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
-                               is_active=True)
+        promotion = self._create_promotion()
         data = promotion.serialize()
         promotion.deserialize(data)
         self.assertNotEqual(promotion, None)
