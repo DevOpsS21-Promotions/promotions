@@ -117,8 +117,19 @@ class TestYourResourceServer(TestCase):
 
     def test_get_promotion(self):
         """ Test get promotion"""
-        resp = self.app.get("/")
+        # get the id of a promotion
+        test_promotion = self._create_promotion()
+        resp = self.app.post(
+            "/promotions", json=test_promotion.serialize(), content_type=CONTENT_TYPE_JSON
+        )        
+        new_promotion = resp.get_json()
+        test_promotion.id = new_promotion["id"]
+        resp = self.app.get(
+            "/promotions/{}".format(test_promotion.id), content_type=CONTENT_TYPE_JSON
+        )
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        self.assertEqual(data["name"], test_promotion.name)
 
     def test_get_all_promotion(self):
         """ Test get all promotion"""
