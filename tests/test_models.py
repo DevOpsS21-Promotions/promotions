@@ -16,7 +16,7 @@ DATABASE_URI = os.getenv(
 )
 
 ######################################################################
-#  <your resource name>   M O D E L   T E S T   C A S E S
+#  Promotions   M O D E L   T E S T   C A S E S
 ######################################################################
 class TestPromotions(unittest.TestCase):
     """ Test Cases for Promotions Model """

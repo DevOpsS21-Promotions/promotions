@@ -56,7 +56,22 @@ def delete_promotion(promotion_id):
 ######################################################################
 @app.route("/promotions", methods=["GET"])
 def list_promotions():
-    """ Get all Promotions """
+    """ 
+    Get all Promotions 
+    This endpoint will list all promotions based on the data that is stored
+    """
+    app.logger.info("Request for promotions list")
+    promotion = []
+    name = request.args.get("name")
+    if name:
+        promotion = Promotions.find_by_name(name)
+    else:
+        promotion = Promotions.all()
+
+    results = [promotion.serialize() for promotion in promotion]
+    app.logger.info("Returning %d promotions", len(results))
+    return make_response(jsonify(results), status.HTTP_200_OK)
+
 
 ######################################################################
 # GET PROMOTION
@@ -81,3 +96,11 @@ def init_db():
     global app
     Promotions.init_db(app)
 
+
+def check_content_type(media_type):
+    """ Checks that the media type is correct """
+    content_type = request.headers.get("Content-Type")
+    if content_type and content_type == media_type:
+        return
+    app.logger.error("Invalid Content-Type: %s", content_type)
+    abort(415, "Content-Type must be {}".format(media_type))

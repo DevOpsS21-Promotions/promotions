@@ -5,38 +5,44 @@ Test cases can be run with the following:
   nosetests -v --with-spec --spec-color
   coverage report -m
 """
+import unittest
 import os
 import logging
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
 from flask_api import status  # HTTP Status Codes
-from service.models import db
+from service import app
+from service.models import db, Promotions
 from service.routes import app, init_db
+
+DATABASE_URI = os.getenv(
+    "DATABASE_URI", "postgres://postgres:postgres@localhost:5432/testdb"
+)
 
 ######################################################################
 #  T E S T   C A S E S
 ######################################################################
-class TestYourResourceServer(TestCase):
-    """ REST API Server Tests """
-
+class TestPromotionsService(unittest.TestCase): 
     @classmethod
     def setUpClass(cls):
-        """ This runs once before the entire test suite """
-        pass
+        """ Run once before all tests """
+        app.debug = False
+        app.testing = True
+        # Set up the test database
+        app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
+        app.logger.setLevel(logging.CRITICAL)
+        init_db(app)
 
-    @classmethod
-    def tearDownClass(cls):
-        """ This runs once after the entire test suite """
-        pass
 
     def setUp(self):
-        """ This runs before each test """
+        """ Runs before each test """
+        db.drop_all()  # clean up the last tests
+        db.create_all()  # create new tables
         self.app = app.test_client()
 
     def tearDown(self):
-        """ This runs after each test """
-        pass
-
+        db.session.remove()
+        db.drop_all()
     ######################################################################
     #  P L A C E   T E S T   C A S E S   H E R E
     ######################################################################
@@ -63,8 +69,12 @@ class TestYourResourceServer(TestCase):
 
     def test_get_all_promotion(self):
         """ Test get all promotion"""
-        resp = self.app.get("/")
+        self._get_all_promotion()
+        resp = self.app.get("/promotions", json=test_get_all_promotion.serialize(), content_type="application/json")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self._get_all_promotions(5)
+        data = resp.get_json()
+        self.assertEqual(len(data), 5)
 
     def test_update_promotion(self):
         """ Test update promotion"""
