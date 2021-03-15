@@ -16,7 +16,7 @@ DATABASE_URI = os.getenv(
 )
 
 ######################################################################
-#  <your resource name>   M O D E L   T E S T   C A S E S
+#  Promotions   M O D E L   T E S T   C A S E S
 ######################################################################
 class TestPromotions(unittest.TestCase):
     """ Test Cases for Promotions Model """
@@ -162,7 +162,20 @@ class TestPromotions(unittest.TestCase):
 
     def test_find_by_name(self):
         """ Find a Promotion by Name """
-        self.assertTrue(True)
+        self._create_promotion().create()
+        Promotions(name="Second",
+                    description="Testing Second Promotion",
+                    promo_code="EFG456",
+                    start_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
+                    end_date=datetime.strptime('2022-01-01 00:00:00', DATETIME),
+                    is_active=False).create()
+        promotions = Promotions.find_by_name("Second")
+        self.assertEqual(promotions[0].name, "Second")
+        self.assertEqual(promotions[0].description, "Testing Second Promotion")
+        self.assertEqual(promotions[0].promo_code, "EFG456")
+        self.assertEqual(promotions[0].start_date, datetime.strptime('2021-01-01 00:00:00', DATETIME))
+        self.assertEqual(promotions[0].end_date, datetime.strptime('2022-01-01 00:00:00', DATETIME))                               
+        self.assertEqual(promotions[0].is_active, False)             
 
     def test_find_or_404_found(self):
         """ Find or return 404 found """

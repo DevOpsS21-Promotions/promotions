@@ -5,6 +5,7 @@ Test cases can be run with the following:
   nosetests -v --with-spec --spec-color
   coverage report -m
 """
+import unittest
 import os
 import unittest
 import logging
@@ -25,9 +26,7 @@ DATABASE_URI = os.getenv(
 ######################################################################
 #  T E S T   C A S E S
 ######################################################################
-class TestYourResourceServer(TestCase):
-    """ REST API Server Tests """
-
+class TestPromotionsService(unittest.TestCase): 
     @classmethod
     def setUpClass(cls):
         """ This runs once before the entire test suite """
@@ -37,10 +36,6 @@ class TestYourResourceServer(TestCase):
         app.logger.setLevel(logging.CRITICAL)
         init_db()
 
-    @classmethod
-    def tearDownClass(cls):
-        """ This runs once after the entire test suite """
-        pass
 
     def setUp(self):
         """ This runs before each test """
@@ -139,8 +134,12 @@ class TestYourResourceServer(TestCase):
 
     def test_get_all_promotion(self):
         """ Test get all promotion"""
-        resp = self.app.get("/")
+        self._create_and_post_promotion()
+        self._create_and_post_promotion()
+        resp = self.app.get("/promotions")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        self.assertEqual(len(data), 2)
 
     def test_update_promotion(self):
         """ Test update promotion"""
