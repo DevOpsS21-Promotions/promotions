@@ -66,7 +66,20 @@ class TestPromotions(unittest.TestCase):
         self.assertEqual(promotion.promo_code, "ABC123")
         self.assertEqual(promotion.start_date, datetime.strptime('2021-01-01 00:00:00', DATETIME))
         self.assertEqual(promotion.end_date, datetime.strptime('2022-01-01 00:00:00', DATETIME))                               
-        self.assertEqual(promotion.is_active, True)             
+        self.assertEqual(promotion.is_active, True)
+
+    def test_add_promotion(self):
+        """ Test Add Promotion to database"""
+        test_promotion = Promotions.all()
+        self.assertEqual(test_promotion, [])
+        test_promotion = self._create_promotion()
+        self.assertTrue(test_promotion != None)
+        self.assertEqual(test_promotion.id, None)
+        test_promotion.create()
+        # Asert that it was assigned an id and shows up in the database
+        self.assertEqual(test_promotion.id, 1)
+        test_promotion = Promotions.all()
+        self.assertEqual(len(test_promotion), 1)        
 
     def test_find_promotion(self):
         """ Test Find Promotion """
