@@ -26,6 +26,8 @@ from service.models import Promotions, DataValidationError
 # Import Flask application
 from . import app
 
+from werkzeug.exceptions import NotFound
+
 ######################################################################
 # Error Handlers
 ######################################################################
@@ -137,7 +139,13 @@ def create_promotions():
 ######################################################################
 @app.route("/promotions/<int:promotion_id>", methods=["DELETE"])
 def delete_promotion(promotion_id):
-    """Delete a Promotion"""
+    app.logger.info("Request to delete pet with id: %s", promotion_id)
+    promotion = Promotions.find(promotion_id)
+    if promotion:
+        promotion.delete()
+
+    app.logger.info("Promotion with ID [%s] delete complete.", promotion_id)
+    return make_response("", status.HTTP_204_NO_CONTENT)
 
 ######################################################################
 # LIST ALL PROMOTIONS

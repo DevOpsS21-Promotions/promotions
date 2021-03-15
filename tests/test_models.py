@@ -105,7 +105,13 @@ class TestPromotions(unittest.TestCase):
 
     def test_delete_promotion(self):
         """ Test Delete Promotion """
-        self.assertTrue(True)
+        test_promotion = self._create_promotion()
+        test_promotion.create()
+        self.assertEqual(len(Promotions.all()), 1)
+        # delete the pet and make sure it isn't in the database
+        test_promotion.delete()
+        self.assertEqual(len(Promotions.all()), 0)
+        
 
     def test_serialize_promotion(self):
         """ Test Serialize Promotion """
