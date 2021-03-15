@@ -26,6 +26,8 @@ from service.models import Promotions, DataValidationError
 # Import Flask application
 from . import app
 
+from werkzeug.exceptions import NotFound
+
 ######################################################################
 # Error Handlers
 ######################################################################
@@ -137,7 +139,13 @@ def create_promotions():
 ######################################################################
 @app.route("/promotions/<int:promotion_id>", methods=["DELETE"])
 def delete_promotion(promotion_id):
-    """Delete a Promotion"""
+    app.logger.info("Request to delete pet with id: %s", promotion_id)
+    promotion = Promotions.find(promotion_id)
+    if promotion:
+        promotion.delete()
+
+    app.logger.info("Promotion with ID [%s] delete complete.", promotion_id)
+    return make_response("", status.HTTP_204_NO_CONTENT)
 
 ######################################################################
 # LIST ALL PROMOTIONS
@@ -167,6 +175,18 @@ def get_promotion(promotion_id):
 @app.route("/promotions/<int:promotion_id>", methods=["PUT"])
 def update_promotion(promotion_id):
     """Update a promotion"""
+
+    app.logger.info("Request to update promotion with id: %s", promotion_id)
+    check_content_type("application/json")
+    promotion = Promotions.find(promotion_id)
+    if not promotion:
+        raise NotFound("Promotion with id '{}' was not found.".format(promotion_id))
+    promotion.deserialize(request.get_json())
+    promotion.id = promotion_id
+    promotion.update()
+
+    app.logger.info("Promotion with ID [%s] updated.", promotion.id)
+    return make_response(jsonify(promotion.serialize()), status.HTTP_200_OK)
 
 ######################################################################
 #  U T I L I T Y   F U N C T I O N S

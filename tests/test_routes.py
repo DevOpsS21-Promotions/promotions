@@ -6,6 +6,7 @@ Test cases can be run with the following:
   coverage report -m
 """
 import os
+import unittest
 import logging
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
@@ -58,10 +59,17 @@ class TestYourResourceServer(TestCase):
                           promo_code="ABC123",
                           start_date=datetime.strptime("2021-01-01 00:00:00", DATETIME),
                           end_date=datetime.strptime("2022-01-01 00:00:00", DATETIME),
-                          modified_date=datetime.strptime("2021-01-01 00:00:00", DATETIME),
-                          created_date=datetime.strptime("2021-01-01 00:00:00", DATETIME),
                           is_active=True
         )
+
+    def _create_and_post_promotion(self):
+        test_promotion = self._create_promotion()
+        resp = self.app.post(
+            "/promotions", json=test_promotion.serialize(), content_type=CONTENT_TYPE_JSON
+        )        
+        new_promotion = resp.get_json()
+        test_promotion.id = new_promotion["id"]
+        return test_promotion
 
     ######################################################################
     #  P L A C E   T E S T   C A S E S   H E R E
@@ -76,7 +84,6 @@ class TestYourResourceServer(TestCase):
         """ Test create promotion"""
         
         promotion = self._create_promotion()
-        #resp = self.app.get("/promotions")
         resp = self.app.post(
             "/promotions", json=promotion.serialize(), content_type=CONTENT_TYPE_JSON
         )
@@ -91,8 +98,6 @@ class TestYourResourceServer(TestCase):
         self.assertEqual(new_promotion["promo_code"], promotion.promo_code, "Promo Code does not match")
         self.assertEqual(datetime.strptime(new_promotion["start_date"], DATETIME), promotion.start_date, "Start dates do not match")
         self.assertEqual(datetime.strptime(new_promotion["end_date"], DATETIME), promotion.end_date, "End dates do not match")
-        self.assertEqual(datetime.strptime(new_promotion["modified_date"], DATETIME), promotion.modified_date, "Modified dates do not match")
-        self.assertEqual(datetime.strptime(new_promotion["created_date"], DATETIME), promotion.created_date, "Created dates do not match")
         self.assertEqual(new_promotion["is_active"], promotion.is_active, "Is Active does not match")
     
         # TODO: When get promotion is implemented
@@ -105,24 +110,26 @@ class TestYourResourceServer(TestCase):
         #self.assertEqual(new_promotion["promo_code"], promotion.promo_code, "Promo Code does not match")
         #self.assertEqual(datetime.strptime(new_promotion["start_date"], DATETIME), promotion.start_date, "Start dates do not match")
         #self.assertEqual(datetime.strptime(new_promotion["end_date"], DATETIME), promotion.end_date, "End dates do not match")
-        #self.assertEqual(datetime.strptime(new_promotion["modified_date"], DATETIME), promotion.modified_date, "Modified dates do not match")
-        #self.assertEqual(datetime.strptime(new_promotion["created_date"], DATETIME), promotion.created_date, "Created dates do not match")
         #self.assertEqual(new_promotion["is_active"], promotion.is_active, "Is Active does not match")
 
     def test_delete_promotion(self):
         """ Test delete promotion"""
-        resp = self.app.get("/")
-        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        test_promotion = self._create_and_post_promotion()
+        resp = self.app.delete(
+            "/promotions/{}".format(test_promotion.id), content_type=CONTENT_TYPE_JSON
+        )
+        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(len(resp.data), 0)
+        # make sure they are deleted
+        resp = self.app.get(
+            "/promotions/{}".format(test_promotion.id), content_type=CONTENT_TYPE_JSON
+        )
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_get_promotion(self):
         """ Test get promotion"""
         # get the id of a promotion
-        test_promotion = self._create_promotion()
-        resp = self.app.post(
-            "/promotions", json=test_promotion.serialize(), content_type=CONTENT_TYPE_JSON
-        )        
-        new_promotion = resp.get_json()
-        test_promotion.id = new_promotion["id"]
+        test_promotion = self._create_and_post_promotion()
         resp = self.app.get(
             "/promotions/{}".format(test_promotion.id), content_type=CONTENT_TYPE_JSON
         )
@@ -137,5 +144,19 @@ class TestYourResourceServer(TestCase):
 
     def test_update_promotion(self):
         """ Test update promotion"""
-        resp = self.app.get("/")
+        test_promotion = self._create_promotion()
+        resp = self.app.post(
+            "/promotions", json=test_promotion.serialize(), content_type=CONTENT_TYPE_JSON
+        )
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        # update the promotion
+        new_promotion = resp.get_json()
+        new_promotion["description"] = "Updated Description"
+        resp = self.app.put(
+            "{0}/{1}".format("/promotions", new_promotion["id"]),
+            json=new_promotion,
+            content_type=CONTENT_TYPE_JSON,
+        )
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        updated_promotion = resp.get_json()
+        self.assertEqual(updated_promotion["description"], "Updated Description")
