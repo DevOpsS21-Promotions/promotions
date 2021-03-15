@@ -59,8 +59,6 @@ class TestYourResourceServer(TestCase):
                           promo_code="ABC123",
                           start_date=datetime.strptime("2021-01-01 00:00:00", DATETIME),
                           end_date=datetime.strptime("2022-01-01 00:00:00", DATETIME),
-                          modified_date=datetime.strptime("2021-01-01 00:00:00", DATETIME),
-                          created_date=datetime.strptime("2021-01-01 00:00:00", DATETIME),
                           is_active=True
         )
 
@@ -92,8 +90,6 @@ class TestYourResourceServer(TestCase):
         self.assertEqual(new_promotion["promo_code"], promotion.promo_code, "Promo Code does not match")
         self.assertEqual(datetime.strptime(new_promotion["start_date"], DATETIME), promotion.start_date, "Start dates do not match")
         self.assertEqual(datetime.strptime(new_promotion["end_date"], DATETIME), promotion.end_date, "End dates do not match")
-        self.assertEqual(datetime.strptime(new_promotion["modified_date"], DATETIME), promotion.modified_date, "Modified dates do not match")
-        self.assertEqual(datetime.strptime(new_promotion["created_date"], DATETIME), promotion.created_date, "Created dates do not match")
         self.assertEqual(new_promotion["is_active"], promotion.is_active, "Is Active does not match")
     
         # TODO: When get promotion is implemented
@@ -106,8 +102,6 @@ class TestYourResourceServer(TestCase):
         #self.assertEqual(new_promotion["promo_code"], promotion.promo_code, "Promo Code does not match")
         #self.assertEqual(datetime.strptime(new_promotion["start_date"], DATETIME), promotion.start_date, "Start dates do not match")
         #self.assertEqual(datetime.strptime(new_promotion["end_date"], DATETIME), promotion.end_date, "End dates do not match")
-        #self.assertEqual(datetime.strptime(new_promotion["modified_date"], DATETIME), promotion.modified_date, "Modified dates do not match")
-        #self.assertEqual(datetime.strptime(new_promotion["created_date"], DATETIME), promotion.created_date, "Created dates do not match")
         #self.assertEqual(new_promotion["is_active"], promotion.is_active, "Is Active does not match")
 
     def test_delete_promotion(self):
