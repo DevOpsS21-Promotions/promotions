@@ -55,7 +55,15 @@ class Promotions(db.Model):
         self.id = None  # id must be none to generate next primary key
         db.session.add(self)
         db.session.commit()
-
+    
+    def update(self):
+        """
+        Updates a Pet to the data store
+        """
+        if not self.id:
+            raise DataValidationError("Update called with empty ID field")
+        db.session.commit()
+        
     def save(self):
         """
         Updates a Promotions to the database

@@ -6,6 +6,7 @@ Test cases can be run with the following:
   coverage report -m
 """
 import os
+import unittest
 import logging
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
@@ -137,5 +138,19 @@ class TestYourResourceServer(TestCase):
 
     def test_update_promotion(self):
         """ Test update promotion"""
-        resp = self.app.get("/")
+        test_promotion = self._create_promotion()
+        resp = self.app.post(
+            "/promotions", json=test_promotion.serialize(), content_type=CONTENT_TYPE_JSON
+        )        
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        # update the promotion
+        new_promotion = resp.get_json()
+        new_promotion["description"] = "Updated Description"
+        resp = self.app.put(
+            "{0}/{1}".format("/promotions", new_promotion["id"]),
+            json=new_promotion,
+            content_type=CONTENT_TYPE_JSON,
+        )
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        updated_promotion = resp.get_json()
+        self.assertEqual(updated_promotion["description"], "Updated Description")
