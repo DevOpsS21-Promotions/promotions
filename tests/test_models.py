@@ -49,8 +49,6 @@ class TestPromotions(unittest.TestCase):
                                promo_code="ABC123",
                                start_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
                                end_date=datetime.strptime('2022-01-01 00:00:00', DATETIME),
-                               modified_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
-                               created_date=datetime.strptime('2021-01-01 00:00:00', DATETIME),
                                is_active=True
         )
 
@@ -68,8 +66,6 @@ class TestPromotions(unittest.TestCase):
         self.assertEqual(promotion.promo_code, "ABC123")
         self.assertEqual(promotion.start_date, datetime.strptime('2021-01-01 00:00:00', DATETIME))
         self.assertEqual(promotion.end_date, datetime.strptime('2022-01-01 00:00:00', DATETIME))                               
-        self.assertEqual(promotion.modified_date, datetime.strptime('2021-01-01 00:00:00', DATETIME))
-        self.assertEqual(promotion.created_date, datetime.strptime('2021-01-01 00:00:00', DATETIME))
         self.assertEqual(promotion.is_active, True)             
 
     def test_find_promotion(self):
@@ -83,8 +79,6 @@ class TestPromotions(unittest.TestCase):
         self.assertEqual(promotion.promo_code, "ABC123")
         self.assertEqual(promotion.start_date, datetime.strptime('2021-01-01 00:00:00', DATETIME))
         self.assertEqual(promotion.end_date, datetime.strptime('2022-01-01 00:00:00', DATETIME))                               
-        self.assertEqual(promotion.modified_date, datetime.strptime('2021-01-01 00:00:00', DATETIME))
-        self.assertEqual(promotion.created_date, datetime.strptime('2021-01-01 00:00:00', DATETIME))
         self.assertEqual(promotion.is_active, True)
 
 
@@ -130,10 +124,6 @@ class TestPromotions(unittest.TestCase):
         self.assertEqual(datetime.strptime(data["start_date"], DATETIME), datetime.strptime('2021-01-01 00:00:00', DATETIME))
         self.assertIn("end_date", data)
         self.assertEqual(datetime.strptime(data["end_date"], DATETIME), datetime.strptime('2022-01-01 00:00:00', DATETIME))
-        self.assertIn("modified_date", data)
-        self.assertEqual(datetime.strptime(data["modified_date"], DATETIME), datetime.strptime('2021-01-01 00:00:00', DATETIME))
-        self.assertIn("created_date", data)
-        self.assertEqual(datetime.strptime(data["created_date"], DATETIME), datetime.strptime('2021-01-01 00:00:00', DATETIME))
         self.assertIn("is_active", data)
         self.assertEqual(data["is_active"], True)
 
@@ -149,8 +139,6 @@ class TestPromotions(unittest.TestCase):
         self.assertEqual(promotion.promo_code, "ABC123")
         self.assertEqual(promotion.start_date, datetime.strptime('2021-01-01 00:00:00', DATETIME))
         self.assertEqual(promotion.end_date, datetime.strptime('2022-01-01 00:00:00', DATETIME))                               
-        self.assertEqual(promotion.modified_date, datetime.strptime('2021-01-01 00:00:00', DATETIME))
-        self.assertEqual(promotion.created_date, datetime.strptime('2021-01-01 00:00:00', DATETIME))
         self.assertEqual(promotion.is_active, True)             
 
     def test_deserialize_bad_promotion_data(self):

@@ -36,8 +36,6 @@ class Promotions(db.Model):
     promo_code = db.Column(db.String(63), nullable=False)
     start_date = db.Column(db.DateTime(), nullable=False)
     end_date = db.Column(db.DateTime(), nullable=False)
-    modified_date = db.Column(db.DateTime(), nullable=False)
-    created_date = db.Column(db.DateTime(), nullable=False)
     is_active = db.Column(db.Boolean(), nullable=False)
 
     ##################################################
@@ -86,8 +84,6 @@ class Promotions(db.Model):
              "promo_code": self.promo_code,
              "start_date": datetime.strftime(self.start_date, DATETIME),
              "end_date": datetime.strftime(self.end_date, DATETIME),
-             "modified_date": datetime.strftime(self.modified_date, DATETIME),
-             "created_date": datetime.strftime(self.created_date, DATETIME),
              "is_active": self.is_active
         }
 
@@ -104,8 +100,6 @@ class Promotions(db.Model):
             self.promo_code = data["promo_code"]
             self.start_date = datetime.strptime(data["start_date"], DATETIME)
             self.end_date = datetime.strptime(data["end_date"], DATETIME)
-            self.modified_date = datetime.strptime(data["modified_date"], DATETIME)
-            self.created_date = datetime.strptime(data["created_date"], DATETIME)
             self.is_active = data["is_active"]
         except KeyError as error:
             raise DataValidationError(
