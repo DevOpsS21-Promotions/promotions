@@ -62,6 +62,15 @@ class TestYourResourceServer(TestCase):
                           is_active=True
         )
 
+    def _create_and_post_promotion(self):
+        test_promotion = self._create_promotion()
+        resp = self.app.post(
+            "/promotions", json=test_promotion.serialize(), content_type=CONTENT_TYPE_JSON
+        )        
+        new_promotion = resp.get_json()
+        test_promotion.id = new_promotion["id"]
+        return test_promotion
+
     ######################################################################
     #  P L A C E   T E S T   C A S E S   H E R E
     ######################################################################
@@ -75,7 +84,6 @@ class TestYourResourceServer(TestCase):
         """ Test create promotion"""
         
         promotion = self._create_promotion()
-        #resp = self.app.get("/promotions")
         resp = self.app.post(
             "/promotions", json=promotion.serialize(), content_type=CONTENT_TYPE_JSON
         )
@@ -106,12 +114,7 @@ class TestYourResourceServer(TestCase):
 
     def test_delete_promotion(self):
         """ Test delete promotion"""
-        test_promotion = self._create_promotion()
-        resp = self.app.post(
-            "/promotions", json=test_promotion.serialize(), content_type=CONTENT_TYPE_JSON
-        )        
-        new_promotion = resp.get_json()
-        test_promotion.id = new_promotion["id"]
+        test_promotion = self._create_and_post_promotion()
         resp = self.app.delete(
             "/promotions/{}".format(test_promotion.id), content_type=CONTENT_TYPE_JSON
         )
@@ -126,12 +129,7 @@ class TestYourResourceServer(TestCase):
     def test_get_promotion(self):
         """ Test get promotion"""
         # get the id of a promotion
-        test_promotion = self._create_promotion()
-        resp = self.app.post(
-            "/promotions", json=test_promotion.serialize(), content_type=CONTENT_TYPE_JSON
-        )        
-        new_promotion = resp.get_json()
-        test_promotion.id = new_promotion["id"]
+        test_promotion = self._create_and_post_promotion()
         resp = self.app.get(
             "/promotions/{}".format(test_promotion.id), content_type=CONTENT_TYPE_JSON
         )
@@ -149,7 +147,7 @@ class TestYourResourceServer(TestCase):
         test_promotion = self._create_promotion()
         resp = self.app.post(
             "/promotions", json=test_promotion.serialize(), content_type=CONTENT_TYPE_JSON
-        )        
+        )
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
         # update the promotion
         new_promotion = resp.get_json()
