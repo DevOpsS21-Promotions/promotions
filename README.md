@@ -28,18 +28,26 @@ Vagrantfile         - Vagrant file that installs Python 3 and PostgreSQL
 ```
 
 ## Setup
-###Prerequisite Installation using Vagrant
+
+### Prerequisite Installation using Vagrant
 The easiest way to use this is with Vagrant and VirtualBox. If you don't have this software the first step is download and install it. If you have an 2020 Apple Mac with the M1 chip, you should download Docker Desktop instead of VirtualBox. Here is what you need:
 Download: Vagrant
 Intel Download: VirtualBox
 Apple M1 Download: Apple M1 Tech Preview
 Install each of those. Then all you have to do is clone this repo and invoke vagrant:
-###Using Vagrant and VirtualBox
+
+### Using Vagrant and VirtualBox
 ```bash
 Git clone https://github.com/DevOpsS21-Promotions/promotions.git
 cd promotions
 vagrant up
 ```
+You can now ssh into the virtual machine and run the service and the test suite:
+```bash
+vagrant ssh
+cd /vagrant
+```
+
 ### Starting Service
 To run the service use flask run (Press Ctrl+C to exit):
 ```bash
@@ -51,16 +59,12 @@ or
 FLASK_APP=service:app flask run -h 0.0.0.0
 ```
 You must pass the parameters -h 0.0.0.0 to have it listed on all network adapters to that the post can be forwarded by vagrant to your host computer so that you can open the web page in a local browser at: http://localhost:5000
-###Running the tests
-You can now ssh into the virtual machine and run the service and the test suite:
-vagrant ssh
-cd /vagrant
-###Manually running the Tests
+
+### Running the Tests
 Run the tests using nosetests
 ```bash
 nosetests
 ```
- 
 Nose is configured via the included setup.cfg file to automatically include the flags --with-spec --spec-color so that red-green-refactor is meaningful. If you are in a command shell that supports colors, passing tests will be green while failing tests will be red.
 Nose is also configured to automatically run the coverage tool and you should see a percentage of coverage report at the end of your tests. If you want to see what lines of code were not tested use:
 ```bash
