@@ -48,6 +48,10 @@ class TestPromotionsService(unittest.TestCase):
         db.session.remove()
         db.drop_all()
 
+    ######################################################################
+    #  HELPER FUNCTIONS
+    ######################################################################
+
     def _create_promotion(self):
         return Promotions(name="Test",
                           description="Testing Promotion",
