@@ -8,6 +8,7 @@ import os
 from service.models import Promotions, DataValidationError, db
 from service import app
 from datetime import datetime
+from werkzeug.exceptions import NotFound
 
 DATETIME = "%Y-%m-%d %H:%M:%S"
 
@@ -177,7 +178,7 @@ class TestPromotions(unittest.TestCase):
         self.assertEqual(promotions[0].end_date, datetime.strptime('2022-01-01 00:00:00', DATETIME))                               
         self.assertEqual(promotions[0].is_active, False)             
 
-    def test_find_or_404_found(self):
-        """ Find or return 404 found """
-        self.assertTrue(True)
+    def test_find_or_404(self):
+        """ Find or return 404 """
+        self.assertRaises(NotFound, Promotions.find_or_404, 0)
 

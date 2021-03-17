@@ -48,6 +48,10 @@ class TestPromotionsService(unittest.TestCase):
         db.session.remove()
         db.drop_all()
 
+    ######################################################################
+    #  HELPER FUNCTIONS
+    ######################################################################
+
     def _create_promotion(self):
         return Promotions(name="Test",
                           description="Testing Promotion",
@@ -67,7 +71,7 @@ class TestPromotionsService(unittest.TestCase):
         return test_promotion
 
     ######################################################################
-    #  P L A C E   T E S T   C A S E S   H E R E
+    #  TEST CASES
     ######################################################################
 
     def test_index(self):
@@ -95,17 +99,23 @@ class TestPromotionsService(unittest.TestCase):
         self.assertEqual(datetime.strptime(new_promotion["end_date"], DATETIME), promotion.end_date, "End dates do not match")
         self.assertEqual(new_promotion["is_active"], promotion.is_active, "Is Active does not match")
     
-        # TODO: When get promotion is implemented
         # Check that the location header was correct
-        #resp = self.app.get(location, content_type=CONTENT_TYPE_JSON)
-        #self.assertEqual(resp.status_code, status.HTTP_200_OK)
-        #new_promotion = resp.get_json()
-        #self.assertEqual(new_promotion["name"], promotion.name, "Names do not match")
-        #self.assertEqual(new_promotion["description"], promotion.description, "Description do not match")
-        #self.assertEqual(new_promotion["promo_code"], promotion.promo_code, "Promo Code does not match")
-        #self.assertEqual(datetime.strptime(new_promotion["start_date"], DATETIME), promotion.start_date, "Start dates do not match")
-        #self.assertEqual(datetime.strptime(new_promotion["end_date"], DATETIME), promotion.end_date, "End dates do not match")
-        #self.assertEqual(new_promotion["is_active"], promotion.is_active, "Is Active does not match")
+        resp = self.app.get(location, content_type=CONTENT_TYPE_JSON)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        new_promotion = resp.get_json()
+        self.assertEqual(new_promotion["name"], promotion.name, "Names do not match")
+        self.assertEqual(new_promotion["description"], promotion.description, "Description do not match")
+        self.assertEqual(new_promotion["promo_code"], promotion.promo_code, "Promo Code does not match")
+        self.assertEqual(datetime.strptime(new_promotion["start_date"], DATETIME), promotion.start_date, "Start dates do not match")
+        self.assertEqual(datetime.strptime(new_promotion["end_date"], DATETIME), promotion.end_date, "End dates do not match")
+        self.assertEqual(new_promotion["is_active"], promotion.is_active, "Is Active does not match")
+
+    def test_create_promotion_bad_request(self):
+        """ Create a Promotion Bad Request"""
+        resp = self.app.post(
+            "/promotions", data="bad request", content_type=CONTENT_TYPE_JSON
+        )
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_delete_promotion(self):
         """ Test delete promotion"""
@@ -132,8 +142,13 @@ class TestPromotionsService(unittest.TestCase):
         data = resp.get_json()
         self.assertEqual(data["name"], test_promotion.name)
 
+    def test_get_account_not_found(self):
+        """ Get an Promotion that is not found """
+        resp = self.app.get("/promotions/0")
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
     def test_get_all_promotion(self):
-        """ Test get all promotion"""
+        """ Test get all (list) promotion"""
         self._create_and_post_promotion()
         self._create_and_post_promotion()
         resp = self.app.get("/promotions")
@@ -159,3 +174,22 @@ class TestPromotionsService(unittest.TestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         updated_promotion = resp.get_json()
         self.assertEqual(updated_promotion["description"], "Updated Description")
+
+    def test_unsupported_media_type(self):
+        """ Send wrong media type """
+        promotion = self._create_promotion()
+        resp = self.app.post(
+            "/promotions", 
+            json=promotion.serialize(), 
+            content_type="test/html"
+        )
+        self.assertEqual(resp.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
+
+    def test_method_not_allowed(self):
+        """ Make an illegal method call """
+        resp = self.app.put(
+            "/promotions", 
+            json={"not": "today"}, 
+            content_type="application/json"
+        )
+        self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)

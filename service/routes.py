@@ -109,7 +109,11 @@ def internal_server_error(error):
 def index():
     """ Root URL response """
     return (
-        "Reminder: return some useful information in json format about the service here",
+        jsonify(
+            name="Promotion REST API Service",
+            version="1.0",
+            paths=url_for("list_promotions", _external=True),
+        ),
         status.HTTP_200_OK,
     )
 
@@ -125,11 +129,10 @@ def create_promotions():
     promotion.deserialize(request.get_json())
     promotion.create()
     message = promotion.serialize()
-    #TODO
-    #location_url = url_for("get_promotions", promotion_id=promotion.id, _external=True)
-    location_url = "Not Implemented"
 
-    #app.logger.info("Promotion with ID [%s] created.", promotion.id)
+    location_url = url_for("get_promotion", promotion_id=promotion.id, _external=True)
+
+    app.logger.info("Promotion with ID [%s] created.", promotion.id)
     return make_response(
         jsonify(message), status.HTTP_201_CREATED, {"Location": location_url}
     )
