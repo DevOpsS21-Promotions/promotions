@@ -60,13 +60,6 @@ class Promotions(db.Model):
         if not self.id:
             raise DataValidationError("Update called with empty ID field")
         db.session.commit()
-        
-    def save(self):
-        """
-        Updates a Promotions to the database
-        """
-        logger.info("Saving %s", self.name)
-        db.session.commit()
 
     def delete(self):
         """ Removes a Promotions from the data store """

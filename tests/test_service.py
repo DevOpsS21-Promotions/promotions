@@ -185,7 +185,7 @@ class TestPromotionsService(unittest.TestCase):
         # cancel the promotion
         cancel_promotion = resp.get_json()
         resp = self.app.put(
-            "{0}/{1}/{2}".format("/promotions/", cancel_promotion["id"], "/cancel"),
+            "/promotions/{0}/cancel".format(cancel_promotion["id"]),
             content_type=CONTENT_TYPE_JSON,
         )
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
