@@ -26,7 +26,11 @@ from service.models import Promotions, DataValidationError
 # Import Flask application
 from . import app
 
+#Import DateTime
+import datetime
+
 from werkzeug.exceptions import NotFound
+
 
 ######################################################################
 # Error Handlers
@@ -204,6 +208,25 @@ def update_promotion(promotion_id):
     promotion.update()
 
     app.logger.info("Promotion with ID [%s] updated.", promotion.id)
+    return make_response(jsonify(promotion.serialize()), status.HTTP_200_OK)
+
+######################################################################
+# CANCEL PROMOTION
+######################################################################
+@app.route("/promotions/<int:promotion_id>/cancel", methods=["PUT"])
+def cancel_promotion(promotion_id):
+    """Cancel a promotion"""
+
+    app.logger.info("Request to cancel promotion with id: %s", promotion_id)
+    promotion = Promotions.find(promotion_id)
+    if not promotion:
+        raise NotFound("Promotion with id '{}' was not found.".format(promotion_id))
+    promotion.end_date = datetime.datetime.now()
+    promotion.is_active = False
+    promotion.id = promotion_id
+    promotion.update()
+
+    app.logger.info("Promotion with ID [%s] canceled.", promotion.id)
     return make_response(jsonify(promotion.serialize()), status.HTTP_200_OK)
 
 ######################################################################
