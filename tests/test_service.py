@@ -186,6 +186,23 @@ class TestPromotionsService(unittest.TestCase):
         updated_promotion = resp.get_json()
         self.assertEqual(updated_promotion["description"], "Updated Description")
 
+    def test_cancel_promotion(self):
+        """ Test cancel promotion"""
+        test_promotion = self._create_promotion()
+        resp = self.app.post(
+            "/promotions", json=test_promotion.serialize(), content_type=CONTENT_TYPE_JSON
+        )
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        # cancel the promotion
+        cancel_promotion = resp.get_json()
+        resp = self.app.put(
+            "/promotions/{0}/cancel".format(cancel_promotion["id"]),
+            content_type=CONTENT_TYPE_JSON,
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        canceled_promotion = resp.get_json()
+        self.assertEqual(canceled_promotion["is_active"], False)
+
     def test_unsupported_media_type(self):
         """ Send wrong media type """
         promotion = self._create_promotion()

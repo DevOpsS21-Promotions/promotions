@@ -16,7 +16,6 @@ DATETIME = "%Y-%m-%d %H:%M:%S"
 
 class DataValidationError(Exception):
     """ Used for an data validation errors when deserializing """
-
     pass
 
 
@@ -56,17 +55,10 @@ class Promotions(db.Model):
     
     def update(self):
         """
-        Updates a Pet to the data store
+        Updates a promotion to the data store
         """
         if not self.id:
             raise DataValidationError("Update called with empty ID field")
-        db.session.commit()
-        
-    def save(self):
-        """
-        Updates a Promotions to the database
-        """
-        logger.info("Saving %s", self.name)
         db.session.commit()
 
     def delete(self):
