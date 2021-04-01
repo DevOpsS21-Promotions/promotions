@@ -142,7 +142,18 @@ class TestPromotionsService(unittest.TestCase):
         data = resp.get_json()
         self.assertEqual(data["name"], test_promotion.name)
 
-    def test_get_account_not_found(self):
+    def test_query_promotion_by_name(self):
+        """ Test query promotion by name"""
+        # get the id of a promotion
+        test_promotion = self._create_and_post_promotion()
+        test_name = test_promotion.name
+        resp = self.app.get("/promotions", query_string="name={}".format(test_name))
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        for promotion in data:
+            self.assertEqual(promotion["name"], test_name)
+
+    def test_get_promotion_not_found(self):
         """ Get an Promotion that is not found """
         resp = self.app.get("/promotions/0")
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
