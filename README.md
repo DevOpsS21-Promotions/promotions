@@ -64,7 +64,7 @@ To run the service use honc run (Press Ctrl+C to exit):
 cp dot-env-example .env
 honcho start
 ```
-Open the web page in a local browser at: http://localhost:8080
+Open the web page in a local browser at: http://localhost:5000
 
 ### Running the Tests
 Run the tests using nosetests
