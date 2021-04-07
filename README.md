@@ -1,4 +1,4 @@
-## nyu-travis-ci
+## Promotions
 
 [![Build Status](https://www.travis-ci.com/DevOpsS21-Promotions/promotions.svg?branch=main)](https://www.travis-ci.com/DevOpsS21-Promotions/promotions)
 
@@ -24,8 +24,12 @@ tests/              - test cases package
 
 .coveragerc         - settings file for code coverage options
 .gitignore          - this will ignore vagrant and other metadata files
+.travis.yml         - travis configuration file
 dot-env-example     - copy to .env to use environment variables
 requirements.txt    - list if Python libraries required by your code
+manifest.yml        - ibm cloud foundry configuration file
+runtime.txt         - python version to be used at runtime
+Procfile            - a command to run by the container
 config.py           - configuration parameters
 setup.cfg           - nosetests configuration file
 LICENSE             - Apache 2.0
@@ -54,16 +58,12 @@ cd /vagrant
 ```
 
 ### Starting Service
-To run the service use flask run (Press Ctrl+C to exit):
+To run the service use honc run (Press Ctrl+C to exit):
 ```bash
 cp dot-env-example .env
-flask run -h 0.0.0.0
+honcho start
 ```
-or
-```bash
-FLASK_APP=service:app flask run -h 0.0.0.0
-```
-You must pass the parameters -h 0.0.0.0 to have it listed on all network adapters to that the post can be forwarded by vagrant to your host computer so that you can open the web page in a local browser at: http://localhost:5000
+Open the web page in a local browser at: http://localhost:8080
 
 ### Running the Tests
 Run the tests using nosetests
@@ -93,6 +93,7 @@ GET /promotions/{id} - Returns the Promotion with a given id number
 POST /promotions - creates a new Promotion record in the database
 PUT /promotions/{id} - updates a Promotion record in the database
 DELETE /promotions/{id} - deletes a Promotion record in the database
+PUT /promotions/{id}/cancel - cancels a Promotion record in the database
 ```
 ---
 <sub> This repository is part of the NYU class **CSCI-GA.2810-001: DevOps and Agile Methodologies** taught by John Rofrano, Adjunct Instructor, NYU Curant Institute, Graduate Division, Computer Science.</sub>
