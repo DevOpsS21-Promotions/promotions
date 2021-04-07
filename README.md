@@ -1,6 +1,7 @@
 ## Promotions
 
 [![Build Status](https://www.travis-ci.com/DevOpsS21-Promotions/promotions.svg?branch=main)](https://www.travis-ci.com/DevOpsS21-Promotions/promotions)
+[![codecov](https://codecov.io/gh/DevOpsS21-Promotions/promotions/branch/main/graph/badge.svg?token=RPDAV3A5I6)](https://codecov.io/gh/DevOpsS21-Promotions/promotions)
 
 
 ## Overview
