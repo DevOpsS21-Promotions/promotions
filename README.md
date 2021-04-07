@@ -59,7 +59,7 @@ cd /vagrant
 ```
 
 ### Starting Service
-To run the service use honc run (Press Ctrl+C to exit):
+To run the service use honcho (Press Ctrl+C to exit):
 ```bash
 cp dot-env-example .env
 honcho start
