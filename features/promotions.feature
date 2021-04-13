@@ -7,7 +7,7 @@ Background:
     Given the following promotions
         | name       | description          | promo_code        | start_date                | end_date             | is_active |
         | deal       | buy one get one free | b1g1free          | 2021-04-01 12:00:00       | 2021-05-01 12:00:00  | true      |
-        | sale       | cheaper price        | offprice          | 2021-04-01 12:00:00       | 2021-05-01 12:00:00  | true      |
+        | sale       | discount price       | offprice          | 2021-04-01 12:00:00       | 2021-05-01 12:00:00  | true      |
         | free       | free item            | free              | 2021-04-01 12:00:00       | 2021-05-01 12:00:00  | true      |
 
 Scenario: The server is running
