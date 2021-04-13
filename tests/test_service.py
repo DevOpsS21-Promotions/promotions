@@ -80,8 +80,9 @@ class TestPromotionsService(unittest.TestCase):
 
     def test_index(self):
         """ Test index call """
-        resp = self.app.get("/")
+        resp = self.app.get('/')
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertIn(b'Promotion REST API Service', resp.data)
 
     def test_create_promotion(self):
         """ Test create promotion"""
