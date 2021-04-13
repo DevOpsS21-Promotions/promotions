@@ -8,7 +8,7 @@
 Vagrant.configure(2) do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "bento/ubuntu-20.04"
+  config.vm.box = "ubuntu/bionic64"
   config.vm.hostname = "ubuntu"
 
   # accessing "localhost:5000" will access port 5000 on the guest machine.
@@ -40,7 +40,7 @@ Vagrant.configure(2) do |config|
   ############################################################
   config.vm.provider :docker do |docker, override|
     override.vm.box = nil
-    docker.image = "rofrano/vagrant-provider:ubuntu"
+    docker.image = "rofrano/vagrant-provider:debian"
     docker.remains_running = true
     docker.has_ssh = true
     docker.privileged = true
@@ -77,7 +77,12 @@ Vagrant.configure(2) do |config|
   ######################################################################
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
-    apt-get install -y git tree wget vim python3-dev python3-pip python3-venv apt-transport-https libpq-dev
+    apt-get install -y git tree wget vim jq python3-dev python3-pip python3-venv apt-transport-https libpq-dev python3-selenium
+    apt-get -y autoremove
+
+    # Install Chromium Driver
+    apt-get install -y chromium-chromedriver
+
     apt-get upgrade python3
     pip3 install -U pip
     # Update pip and wheel so Python packages build correctly
@@ -98,6 +103,7 @@ Vagrant.configure(2) do |config|
     d.run "postgres:alpine",
        args: "-d --name postgres -p 5432:5432 -v psql_data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=postgres"
   end
+  
   ######################################################################
   # Setup a Bluemix and Kubernetes environment
   ######################################################################
