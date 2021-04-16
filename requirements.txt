@@ -5,7 +5,7 @@ SQLAlchemy==1.3.23
 Flask-SQLAlchemy==2.4.4
 python-dotenv==0.10.3
 psycopg2-binary==2.8.4
-
+cloudant==2.14.0
 
 # Testing
 nose==1.3.7
@@ -14,9 +14,16 @@ pinocchio==0.4.2
 pylint>=2.4.1
 
 # Code coverage
-coverage==4.5.4
-codecov==2.1.10
+coverage==5.5
+codecov==2.1.11
 
 # runtime
-gunicorn==19.9.0
+gunicorn==20.0.4
 honcho==1.0.1
+httpie==2.4.0
+
+# Behavior Driven Development
+behave==1.2.6
+selenium==3.141.0
+compare==0.2b0
+requests==2.25.1
