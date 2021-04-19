@@ -13,9 +13,9 @@ $(function () {
         $("#promotion_start_date").val(res.start_date);
         $("#promotion_end_date").val(res.end_date);
         if (res.is_active == true) {
-            $("#promotion_active").val("true");
+            $("#promotion_active").val("True");
         } else {
-            $("#promotion_active").val("false");
+            $("#promotion_active").val("False");
         }
     }
 
@@ -27,7 +27,7 @@ $(function () {
         $("#promotion_description").val("");
         $("#promotion_start_date").val("");
         $("#promotion_end_date").val("");
-        $("#promotion_active").val("true");
+        $("#promotion_active").val("True");
     }
 
     // Updates the flash message area
@@ -48,6 +48,11 @@ $(function () {
         var start_date = $("#promotion_start_date").val();
         var end_date = $("#promotion_end_date").val();
         var is_active = $("#promotion_active").val();
+        if (is_active == "True") {
+            is_active = true
+        } else {
+            is_active = false
+        }
 
         var data = {
             "name": name,
@@ -89,6 +94,11 @@ $(function () {
         var start_date = $("#promotion_start_date").val();
         var end_date = $("#promotion_end_date").val();
         var is_active = $("#promotion_active").val();
+        if (is_active == "True") {
+            is_active = true
+        } else {
+            is_active = false
+        }
 
         var data = {
             "name": name,
@@ -222,18 +232,18 @@ $(function () {
         if (name) {
             queryString += 'name=' + name
         }
-        if (promo_code) {
-            if (queryString.length > 0) {
-                queryString += '&promo_code=' + promo_code
-            } else {
-                queryString += 'promo_code=' + promo_code
-            }
-        }
         if (description) {
             if (queryString.length > 0) {
                 queryString += '&description=' + description
             } else {
                 queryString += 'description=' + description
+            }
+        }
+        if (promo_code) {
+            if (queryString.length > 0) {
+                queryString += '&promo_code=' + promo_code
+            } else {
+                queryString += 'promo_code=' + promo_code
             }
         }
         if (start_date) {
@@ -270,13 +280,13 @@ $(function () {
             $("#search_results").empty();
             $("#search_results").append('<table class="table-striped" cellpadding="10">');
             var header = '<tr>'
-            header += '<th style="width:10%">ID</th>'
+            header += '<th style="width:5%">ID</th>'
             header += '<th style="width:40%">Name</th>'
-            header += '<th style="width:40%">Promo_Code</th>'
+            header += '<th style="width:10%">Promo_Code</th>'
             header += '<th style="width:40%">Description</th>'
             header += '<th style="width:10%">Start_Date</th></tr>'
             header += '<th style="width:10%">End_Date</th></tr>'
-            header += '<th style="width:10%">Is_Active</th></tr>'
+            header += '<th style="width:5%">Is_Active</th></tr>'
             $("#search_results").append(header);
             var firstPromotion = "";
             for(var i = 0; i < res.length; i++) {
