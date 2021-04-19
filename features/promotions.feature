@@ -16,10 +16,12 @@ Scenario: The server is running
     And I should not see "404 Not Found"
 
 Scenario: Create a Promotion
+
+Scenario: Read a Promotion
     When I visit the "Home Page"
-    And I set the "Name" to "Promo 1"
-    And I set the "Description" to "buy one get one"
-    And I set the "Promo_Code" to "BOGO"
+    And I set the "Name" to "Promo 2"
+    And I set the "Description" to "Buy one get one two"
+    And I set the "Promo_Code" to "BOGO2"
     And I set the "Start_Date" to "2021-06-14 12:00:00"
     And I set the "End_Date" to "2021-07-13 12:00:00"
     And I select "True" in the "Active" dropdown
@@ -30,26 +32,36 @@ Scenario: Create a Promotion
     Then the "Id" field should be empty
     And the "Name" field should be empty
     And the "Description" field should be empty
-    And the "Promo_Code" field should be empty 
+    And the "Promo_code" field should be empty
     And the "Start_Date" field should be empty 
     And the "End_Date" field should be empty
     When I paste the "Id" field
     And I press the "Retrieve" button
-    Then I should see "Promo 1" in the "Name" field
-    And I should see "buy one get one" in the "Description" field
-    And I should see "BOGO" in the "Promo_Code" field
+    Then I should see "Promo 2" in the "Name" field
+    And I should see "Buy one get one two" in the "Description" field
+    And I should see "BOGO2" in the "Promo_Code" field
     And I should see "2021-06-14 12:00:00" in the "Start_Date" field 
     And I should see "2021-07-13 12:00:00" in the "End_Date" field
     And I should see "True" in the "Active" dropdown
-
-Scenario: Read a Promotion
-
+    
 Scenario: Update a Promotion
-
-Scenario: Cancel a Promotion
-
-Scenario: List all Promotion
 
 Scenario: Delete a Promotion
 
+Scenario: List all Promotions
+    When I visit the "Home Page"
+    And I press the "Search" button
+    Then I should see "deal" in the results
+    And I should see "sale" in the results
+    And I should see "free" in the results
+    And I should not see "percentoff" in the results
+
 Scenario: Query a Promotion
+    When I visit the "Home Page"
+    And I set the "Name" to "deal"
+    And I press the "Search" button
+    Then I should see "buy one get one free" in the "Description" field
+    And I should see "b1g1free" in the "Promo_code" field
+    And I should see "2021-04-01 12:00:00" in the "Start_date" field
+    And I should see "2021-05-01 12:00:00" in the "End_date" field
+    And I should see "True" in the "Active" field
