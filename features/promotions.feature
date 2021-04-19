@@ -26,5 +26,13 @@ Scenario: Delete a Promoption
 Scenario: List all Promotions
 
 Scenario: Query a Promoption
+    When I visit the "Home Page"
+    And I set the "Name" to "deal"
+    And I press the "Search" button
+    Then I should see "buy one get one free" in the "Description" field
+    And I should see "b1g1free" in the "Promo_code" field
+    And I should see "2021-04-01 12:00:00" in the "Start_date" field
+    And I should see "2021-05-01 12:00:00" in the "End_date" field
+    And I should see "True" in the "Active" field
 
 Scenario: Cancel a Promotion
