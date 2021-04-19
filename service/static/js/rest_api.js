@@ -12,11 +12,7 @@ $(function () {
         $("#promotion_description").val(res.description);
         $("#promotion_start_date").val(res.start_date);
         $("#promotion_end_date").val(res.end_date);
-        if (res.is_active == true) {
-            $("#promotion_active").val("True");
-        } else {
-            $("#promotion_active").val("False");
-        }
+        $("#promotion_active").val(res.is_active);
     }
 
     /// Clears all form fields
@@ -27,7 +23,7 @@ $(function () {
         $("#promotion_description").val("");
         $("#promotion_start_date").val("");
         $("#promotion_end_date").val("");
-        $("#promotion_active").val("True");
+        $("#promotion_active").val(true);
     }
 
     // Updates the flash message area
@@ -62,6 +58,8 @@ $(function () {
             "end_date": end_date,
             "is_active": is_active
         };
+
+        flash_message(JSON.stringify(data))
 
         var ajax = $.ajax({
             type: "POST",
@@ -246,27 +244,6 @@ $(function () {
                 queryString += 'promo_code=' + promo_code
             }
         }
-        if (start_date) {
-            if (queryString.length > 0) {
-                queryString += '&start_date=' + start_date
-            } else {
-                queryString += 'start_date=' + start_date
-            }
-        }
-        if (end_date) {
-            if (queryString.length > 0) {
-                queryString += '&end_date=' + end_date
-            } else {
-                queryString += 'end_date=' + end_date
-            }
-        }
-        if (promo_code) {
-            if (queryString.length > 0) {
-                queryString += '&promo_code=' + promo_code
-            } else {
-                queryString += 'promo_code=' + promo_code
-            }
-        }
 
         var ajax = $.ajax({
             type: "GET",
@@ -281,9 +258,9 @@ $(function () {
             $("#search_results").append('<table class="table-striped" cellpadding="10">');
             var header = '<tr>'
             header += '<th style="width:5%">ID</th>'
-            header += '<th style="width:40%">Name</th>'
+            header += '<th style="width:30%">Name</th>'
+            header += '<th style="width:30%">Description</th>'
             header += '<th style="width:10%">Promo_Code</th>'
-            header += '<th style="width:40%">Description</th>'
             header += '<th style="width:10%">Start_Date</th></tr>'
             header += '<th style="width:10%">End_Date</th></tr>'
             header += '<th style="width:5%">Is_Active</th></tr>'
@@ -291,7 +268,7 @@ $(function () {
             var firstPromotion = "";
             for(var i = 0; i < res.length; i++) {
                 var promotion = res[i];
-                var row = "<tr><td>"+promotion._id+"</td><td>"+promotion.name+"</td><td>"+promotion.promo_code+"</td><td>"+promotion.description+"</td><td>"+promotion.start_date+"</td><td>"+promotion.end_date+"</td></tr>"+promotion.is_active+"</td></tr>";
+                var row = "<tr><td>"+promotion._id+"</td><td>"+promotion.name+"</td><td>"+promotion.description+"</td><td>"+promotion.promo_code+"</td><td>"+promotion.start_date+"</td><td>"+promotion.end_date+"</td></tr>"+promotion.is_active+"</td></tr>";
                 $("#search_results").append(row);
                 if (i == 0) {
                     firstPromotion = promotion;
