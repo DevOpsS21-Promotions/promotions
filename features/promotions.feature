@@ -22,6 +22,22 @@ Scenario: Read a Promoption
 Scenario: Update a Promoption
 
 Scenario: Delete a Promoption
+    When I visit the "Home Page"
+    And I paste the "Id" field
+    And I press the "Retrieve" button
+    Then I should see "Sale" in the "Name" field
+    Then I should see "Discount Price" in the "Description" field
+    Then I should see "Offprice" in the "Promo Code" field
+    Then I should see "2021-04-01 12:00:00" in the "Start Date" field
+    Then I should see "2021-05-01 12:00:00" in the "End Date" field
+    Then I should see "True" in the "Active" dropdown
+    When I press "Delete"
+    Then the "Id" field should be empty
+    And the "Name" field should be empty
+    And the "Description" field should be empty
+    And the "Promo Code" field should be empty
+    And the "Start Date" field should be empty 
+    And the "End Date" field should be empty
 
 Scenario: List all Promotions
 
