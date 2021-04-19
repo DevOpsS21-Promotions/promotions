@@ -6,21 +6,28 @@ $(function () {
 
     // Updates the form with data from the response
     function update_form_data(res) {
-        $("#pet_id").val(res._id);
-        $("#pet_name").val(res.name);
-        $("#pet_category").val(res.category);
-        if (res.available == true) {
-            $("#pet_available").val("true");
+        $("#promotion_id").val(res.id);
+        $("#promotion_name").val(res.name);
+        $("#promotion_promo_code").val(res.description);
+        $("#promotion_description").val(res.description);
+        $("#promotion_start_date").val(res.start_date);
+        $("#promotion_end_date").val(res.end_date);
+        if (res.is_active == true) {
+            $("#promotion_active").val("true");
         } else {
-            $("#pet_available").val("false");
+            $("#promotion_active").val("false");
         }
     }
 
     /// Clears all form fields
     function clear_form_data() {
-        $("#pet_name").val("");
-        $("#pet_category").val("");
-        $("#pet_available").val("");
+        $("#promotion_id").val("");
+        $("#promotion_name").val("");
+        $("#promotion_promo_code").val("");
+        $("#promotion_description").val("");
+        $("#promotion_start_date").val("");
+        $("#promotion_end_date").val("");
+        $("#promotion_active").val("true");
     }
 
     // Updates the flash message area
@@ -30,24 +37,30 @@ $(function () {
     }
 
     // ****************************************
-    // Create a Pet
+    // Create a Promotion
     // ****************************************
 
     $("#create-btn").click(function () {
-
-        var name = $("#pet_name").val();
-        var category = $("#pet_category").val();
-        var available = $("#pet_available").val() == "true";
+        
+        var name = $("#promotion_name").val();
+        var description = $("#promotion_description").val();
+        var promo_code = $("#promotion_promo_code").val();
+        var start_date = $("#promotion_start_date").val();
+        var end_date = $("#promotion_end_date").val();
+        var is_active = $("#promotion_active").val();
 
         var data = {
             "name": name,
-            "category": category,
-            "available": available
+            "description": description,
+            "promo_code": promo_code,
+            "start_date": start_date,
+            "end_date": end_date,
+            "is_active": is_active
         };
 
         var ajax = $.ajax({
             type: "POST",
-            url: "/pets",
+            url: "/promotions",
             contentType: "application/json",
             data: JSON.stringify(data),
         });
@@ -64,25 +77,31 @@ $(function () {
 
 
     // ****************************************
-    // Update a Pet
+    // Update a Promotion
     // ****************************************
 
     $("#update-btn").click(function () {
 
-        var pet_id = $("#pet_id").val();
-        var name = $("#pet_name").val();
-        var category = $("#pet_category").val();
-        var available = $("#pet_available").val() == "true";
+        var promotion_id = $("#promotion_id").val();
+        var name = $("#promotion_name").val();
+        var description = $("#promotion_description").val();
+        var promo_code = $("#promotion_promo_code").val();
+        var start_date = $("#promotion_start_date").val();
+        var end_date = $("#promotion_end_date").val();
+        var is_active = $("#promotion_active").val();
 
         var data = {
             "name": name,
-            "category": category,
-            "available": available
+            "description": description,
+            "promo_code": promo_code,
+            "start_date": start_date,
+            "end_date": end_date,
+            "is_active": is_active
         };
 
         var ajax = $.ajax({
                 type: "PUT",
-                url: "/pets/" + pet_id,
+                url: "/promotions/" + promotion_id,
                 contentType: "application/json",
                 data: JSON.stringify(data)
             })
@@ -99,16 +118,16 @@ $(function () {
     });
 
     // ****************************************
-    // Retrieve a Pet
+    // Retrieve a Promotion
     // ****************************************
 
     $("#retrieve-btn").click(function () {
 
-        var pet_id = $("#pet_id").val();
+        var promotion_id = $("#promotion_id").val();
 
         var ajax = $.ajax({
             type: "GET",
-            url: "/pets/" + pet_id,
+            url: "/promotions/" + promotion_id,
             contentType: "application/json",
             data: ''
         })
@@ -127,23 +146,49 @@ $(function () {
     });
 
     // ****************************************
-    // Delete a Pet
+    // Delete a Promotion
     // ****************************************
 
     $("#delete-btn").click(function () {
-
-        var pet_id = $("#pet_id").val();
+      
+        var promotion_id = $("#promotion_id").val();
 
         var ajax = $.ajax({
             type: "DELETE",
-            url: "/pets/" + pet_id,
+            url: "/promotions/" + promotion_id,
             contentType: "application/json",
             data: '',
         })
 
         ajax.done(function(res){
             clear_form_data()
-            flash_message("Pet has been Deleted!")
+            flash_message("Promotion has been Deleted!")
+        });
+        
+        ajax.fail(function(res){
+            flash_message("Server error!")
+        });
+        
+    });
+
+    // ****************************************
+    // Cancel a Promotion
+    // ****************************************
+
+    $("#cancel-btn").click(function () {
+
+        var promotion_id = $("#promotion_id").val();
+        
+        var ajax = $.ajax({
+            type: "PUT",
+            url: "/promotions/" + promotion_id + "/cancel",
+            contentType: "application/json",
+            data: '',
+        })
+
+        ajax.done(function(res){
+            clear_form_data()
+            flash_message("Promotion has been Canceled!")
         });
 
         ajax.fail(function(res){
@@ -156,43 +201,66 @@ $(function () {
     // ****************************************
 
     $("#clear-btn").click(function () {
-        $("#pet_id").val("");
+        $("#promotion_id").val("");
         clear_form_data()
     });
 
     // ****************************************
-    // Search for a Pet
+    // Search for a Promotion
     // ****************************************
 
     $("#search-btn").click(function () {
 
-        var name = $("#pet_name").val();
-        var category = $("#pet_category").val();
-        var available = $("#pet_available").val() == "true";
+        var name = $("#promotion_name").val();
+        var description = $("#promotion_description").val();
+        var promo_code = $("#promotion_promo_code").val();
+        var start_date = $("#promotion_start_date").val();
+        var end_date = $("#promotion_end_date").val();
 
         var queryString = ""
 
         if (name) {
             queryString += 'name=' + name
         }
-        if (category) {
+        if (promo_code) {
             if (queryString.length > 0) {
-                queryString += '&category=' + category
+                queryString += '&promo_code=' + promo_code
             } else {
-                queryString += 'category=' + category
+                queryString += 'promo_code=' + promo_code
             }
         }
-        if (available) {
+        if (description) {
             if (queryString.length > 0) {
-                queryString += '&available=' + available
+                queryString += '&description=' + description
             } else {
-                queryString += 'available=' + available
+                queryString += 'description=' + description
+            }
+        }
+        if (start_date) {
+            if (queryString.length > 0) {
+                queryString += '&start_date=' + start_date
+            } else {
+                queryString += 'start_date=' + start_date
+            }
+        }
+        if (end_date) {
+            if (queryString.length > 0) {
+                queryString += '&end_date=' + end_date
+            } else {
+                queryString += 'end_date=' + end_date
+            }
+        }
+        if (promo_code) {
+            if (queryString.length > 0) {
+                queryString += '&promo_code=' + promo_code
+            } else {
+                queryString += 'promo_code=' + promo_code
             }
         }
 
         var ajax = $.ajax({
             type: "GET",
-            url: "/pets?" + queryString,
+            url: "/promotions?" + queryString,
             contentType: "application/json",
             data: ''
         })
@@ -204,24 +272,27 @@ $(function () {
             var header = '<tr>'
             header += '<th style="width:10%">ID</th>'
             header += '<th style="width:40%">Name</th>'
-            header += '<th style="width:40%">Category</th>'
-            header += '<th style="width:10%">Available</th></tr>'
+            header += '<th style="width:40%">Promo_Code</th>'
+            header += '<th style="width:40%">Description</th>'
+            header += '<th style="width:10%">Start_Date</th></tr>'
+            header += '<th style="width:10%">End_Date</th></tr>'
+            header += '<th style="width:10%">Is_Active</th></tr>'
             $("#search_results").append(header);
-            var firstPet = "";
+            var firstPromotion = "";
             for(var i = 0; i < res.length; i++) {
-                var pet = res[i];
-                var row = "<tr><td>"+pet._id+"</td><td>"+pet.name+"</td><td>"+pet.category+"</td><td>"+pet.available+"</td></tr>";
+                var promotion = res[i];
+                var row = "<tr><td>"+promotion._id+"</td><td>"+promotion.name+"</td><td>"+promotion.promo_code+"</td><td>"+promotion.description+"</td><td>"+promotion.start_date+"</td><td>"+promotion.end_date+"</td></tr>"+promotion.is_active+"</td></tr>";
                 $("#search_results").append(row);
                 if (i == 0) {
-                    firstPet = pet;
+                    firstPromotion = promotion;
                 }
             }
 
             $("#search_results").append('</table>');
 
             // copy the first result to the form
-            if (firstPet != "") {
-                update_form_data(firstPet)
+            if (firstPromotion != "") {
+                update_form_data(firstPromotion)
             }
 
             flash_message("Success")
