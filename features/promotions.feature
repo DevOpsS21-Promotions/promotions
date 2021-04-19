@@ -28,7 +28,8 @@ Scenario: List all Promotions
     And I press the "Search" button
     Then I should see "deal" in the results
     And I should see "sale" in the results
-    And I should not see "free" in the results
+    And I should see "free" in the results
+    And I should not see "percentoff" in the results
 
 Scenario: Query a Promoption
 
