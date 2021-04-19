@@ -15,13 +15,38 @@ Scenario: The server is running
     Then I should see "Promotion RESTful Service" in the title
     And I should not see "404 Not Found"
 
-Scenario: Create a Promoption
+Scenario: Create a Promotion
 
-Scenario: Read a Promoption
+Scenario: Read a Promotion
+    When I visit the "Home Page"
+    And I set the "Name" to "Promo 2"
+    And I set the "Description" to "Buy one get one two"
+    And I set the "Promo_Code" to "BOGO2"
+    And I set the "Start_Date" to "2021-06-14 12:00:00"
+    And I set the "End_Date" to "2021-07-13 12:00:00"
+    And I select "True" in the "Active" dropdown
+    And I press the "Create" button
+    Then I should see the message "Success"
+    When I copy the "Id" field
+    And I press the "Clear" button
+    Then the "Id" field should be empty
+    And the "Name" field should be empty
+    And the "Description" field should be empty
+    And the "Promo_code" field should be empty
+    And the "Start_Date" field should be empty 
+    And the "End_Date" field should be empty
+    When I paste the "Id" field
+    And I press the "Retrieve" button
+    Then I should see "Promo 2" in the "Name" field
+    And I should see "Buy one get one two" in the "Description" field
+    And I should see "BOGO2" in the "Promo_Code" field
+    And I should see "2021-06-14 12:00:00" in the "Start_Date" field 
+    And I should see "2021-07-13 12:00:00" in the "End_Date" field
+    And I should see "True" in the "Active" dropdown
+    
+Scenario: Update a Promotion
 
-Scenario: Update a Promoption
-
-Scenario: Delete a Promoption
+Scenario: Delete a Promotion
 
 Scenario: List all Promotions
     When I visit the "Home Page"
