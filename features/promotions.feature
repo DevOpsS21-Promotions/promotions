@@ -23,8 +23,8 @@ Scenario: Update a Promoption
 
 Scenario: Delete a Promoption
     When I visit the "Home Page"
-    And I paste the "Id" field
-    And I press the "Retrieve" button
+    And I set the "Name" to "Sale"
+    And I press the "Search" button
     Then I should see "Sale" in the "Name" field
     Then I should see "Discount Price" in the "Description" field
     Then I should see "Offprice" in the "Promo Code" field
