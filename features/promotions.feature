@@ -19,14 +19,29 @@ Scenario: Create a Promotion
 
 Scenario: Read a Promotion
     When I visit the "Home Page"
-    And I set the "Name" to "Deal"
-    And I press the "Search" button 
-    Then I  should see "deal" in the "Name" field 
-    And I should see "buy one get one free" in the "Description" field 
-    And I should see "b1g1free" in the "Promo Code" field 
-    And I should see "2021-04-01 12:00:00" in the "Start Date" field 
-    And I should see "2021-05-01 12:00:00" in the "End Date" field 
-    And I should see "true" in the "Active" dropdown
+    And I set the "Name" to "Promo 2"
+    And I set the "Description" to "Buy one get one two"
+    And I set the "Promo Code" to "BOGO2"
+    And I set the "Start Date" to "2021-06-14 12:00:00"
+    And I set the "End Date" to "2021-07-13 12:00:00"
+    And I select "True" in the "Active" dropdown
+    And I press the "Create" button
+    Then I should see the message "Success"
+    When I copy the "Id" field
+    And I press the "Clear" button
+    Then the "Id" field should be empty
+    And the "Name" field should be empty
+    And the "Description" field should be empty
+    And the "Start Date" field should be empty 
+    And the "End Date" field should be empty
+    When I paste the "Id" field
+    And I press the "Retrieve" button
+    Then I should see "Promo 2" in the "Name" field
+    And I set the "Description" to "Buy one get one two"
+    And I should see "BOGO2" in the "Promo Code" field
+    And I should see "2021-06-14 12:00:00" in the "Start Date" field 
+    And I should see "2021-07-13 12:00:00" in the "End Date" field
+    And I should see "True" in the "Active" dropdown
     
 Scenario: Update a Promotion
 
