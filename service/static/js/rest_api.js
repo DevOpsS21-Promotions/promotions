@@ -8,11 +8,15 @@ $(function () {
     function update_form_data(res) {
         $("#promotion_id").val(res.id);
         $("#promotion_name").val(res.name);
-        $("#promotion_promo_code").val(res.description);
         $("#promotion_description").val(res.description);
+        $("#promotion_promo_code").val(res.promo_code);
         $("#promotion_start_date").val(res.start_date);
         $("#promotion_end_date").val(res.end_date);
-        $("#promotion_active").val(res.is_active);
+        if (res.is_active == true) {
+            $("#promotion_active").val("true");
+        } else {
+            $("#promotion_active").val("false");
+        }
     }
 
     /// Clears all form fields
@@ -23,7 +27,7 @@ $(function () {
         $("#promotion_description").val("");
         $("#promotion_start_date").val("");
         $("#promotion_end_date").val("");
-        $("#promotion_active").val(true);
+        $("#promotion_active").val("");
     }
 
     // Updates the flash message area
@@ -43,12 +47,8 @@ $(function () {
         var promo_code = $("#promotion_promo_code").val();
         var start_date = $("#promotion_start_date").val();
         var end_date = $("#promotion_end_date").val();
-        var is_active = $("#promotion_active").val();
-        if (is_active == "True") {
-            is_active = true
-        } else {
-            is_active = false
-        }
+        var is_active = $("#promotion_active").val() == "true";
+        
 
         var data = {
             "name": name,
@@ -58,8 +58,6 @@ $(function () {
             "end_date": end_date,
             "is_active": is_active
         };
-
-        flash_message(JSON.stringify(data))
 
         var ajax = $.ajax({
             type: "POST",
@@ -91,12 +89,7 @@ $(function () {
         var promo_code = $("#promotion_promo_code").val();
         var start_date = $("#promotion_start_date").val();
         var end_date = $("#promotion_end_date").val();
-        var is_active = $("#promotion_active").val();
-        if (is_active == "True") {
-            is_active = true
-        } else {
-            is_active = false
-        }
+        var is_active = $("#promotion_active").val() == "true";
 
         var data = {
             "name": name,
