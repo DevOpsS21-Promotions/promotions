@@ -21,9 +21,9 @@ Scenario: Read a Promotion
     When I visit the "Home Page"
     And I set the "Name" to "Promo 2"
     And I set the "Description" to "Buy one get one two"
-    And I set the "Promo Code" to "BOGO2"
-    And I set the "Start Date" to "2021-06-14 12:00:00"
-    And I set the "End Date" to "2021-07-13 12:00:00"
+    And I set the "Promo_Code" to "BOGO2"
+    And I set the "Start_Date" to "2021-06-14 12:00:00"
+    And I set the "End_Date" to "2021-07-13 12:00:00"
     And I select "True" in the "Active" dropdown
     And I press the "Create" button
     Then I should see the message "Success"
@@ -32,15 +32,16 @@ Scenario: Read a Promotion
     Then the "Id" field should be empty
     And the "Name" field should be empty
     And the "Description" field should be empty
-    And the "Start Date" field should be empty 
-    And the "End Date" field should be empty
+    And the "Promo_code" field should be empty
+    And the "Start_Date" field should be empty 
+    And the "End_Date" field should be empty
     When I paste the "Id" field
     And I press the "Retrieve" button
     Then I should see "Promo 2" in the "Name" field
     And I set the "Description" to "Buy one get one two"
-    And I should see "BOGO2" in the "Promo Code" field
-    And I should see "2021-06-14 12:00:00" in the "Start Date" field 
-    And I should see "2021-07-13 12:00:00" in the "End Date" field
+    And I should see "BOGO2" in the "Promo_Code" field
+    And I should see "2021-06-14 12:00:00" in the "Start_Date" field 
+    And I should see "2021-07-13 12:00:00" in the "End_Date" field
     And I should see "True" in the "Active" dropdown
     
 Scenario: Update a Promotion
