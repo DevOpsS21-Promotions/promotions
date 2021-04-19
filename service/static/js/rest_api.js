@@ -13,9 +13,9 @@ $(function () {
         $("#promotion_start_date").val(res.start_date);
         $("#promotion_end_date").val(res.end_date);
         if (res.is_active == true) {
-            $("#promotion_active").val("True");
+            $("#promotion_active").val(true);
         } else {
-            $("#promotion_active").val("False");
+            $("#promotion_active").val(false);
         }
     }
 
@@ -27,7 +27,7 @@ $(function () {
         $("#promotion_description").val("");
         $("#promotion_start_date").val("");
         $("#promotion_end_date").val("");
-        $("#promotion_active").val("True");
+        $("#promotion_active").val(true);
     }
 
     // Updates the flash message area
@@ -62,6 +62,8 @@ $(function () {
             "end_date": end_date,
             "is_active": is_active
         };
+
+        flash_message(JSON.stringify(data))
 
         var ajax = $.ajax({
             type: "POST",
