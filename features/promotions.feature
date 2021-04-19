@@ -38,7 +38,7 @@ Scenario: Read a Promotion
     When I paste the "Id" field
     And I press the "Retrieve" button
     Then I should see "Promo 2" in the "Name" field
-    And I set the "Description" to "Buy one get one two"
+    And I should see "Buy one get one two" in the "Description" field
     And I should see "BOGO2" in the "Promo_Code" field
     And I should see "2021-06-14 12:00:00" in the "Start_Date" field 
     And I should see "2021-07-13 12:00:00" in the "End_Date" field
