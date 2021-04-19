@@ -12,7 +12,15 @@ $(function () {
         $("#promotion_description").val(res.description);
         $("#promotion_start_date").val(res.start_date);
         $("#promotion_end_date").val(res.end_date);
+<<<<<<< HEAD
         $("#promotion_active").val(res.is_active);
+=======
+        if (res.is_active == true) {
+            $("#promotion_active").val(true);
+        } else {
+            $("#promotion_active").val(false);
+        }
+>>>>>>> 120b5d8a43a1eb04e6bd6dc8c08249c074c9544f
     }
 
     /// Clears all form fields
