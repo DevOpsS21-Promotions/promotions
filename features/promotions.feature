@@ -15,13 +15,22 @@ Scenario: The server is running
     Then I should see "Promotion RESTful Service" in the title
     And I should not see "404 Not Found"
 
-Scenario: Create a Promoption
+Scenario: Create a Promotion
 
-Scenario: Read a Promoption
+Scenario: Read a Promotion
+    When I visit the "Home Page"
+    And I set the "Name" to "Deal"
+    And I press the "Search" button 
+    Then I  should see "deal" in the "Name" field 
+    And I should see "buy one get one free" in the "Description" field 
+    And I should see "b1g1free" in the "Promo Code" field 
+    And I should see "2021-04-01 12:00:00" in the "Start Date" field 
+    And I should see "2021-05-01 12:00:00" in the "End Date" field 
+    And I should see "true" in the "Active" dropdown
+    
+Scenario: Update a Promotion
 
-Scenario: Update a Promoption
-
-Scenario: Delete a Promoption
+Scenario: Delete a Promotion
 
 Scenario: List all Promotions
 
