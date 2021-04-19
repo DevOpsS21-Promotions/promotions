@@ -24,6 +24,11 @@ Scenario: Update a Promoption
 Scenario: Delete a Promoption
 
 Scenario: List all Promotions
+    When I visit the "Home Page"
+    And I press the "Search" button
+    Then I should see "deal" in the results
+    And I should see "sale" in the results
+    And I should not see "free" in the results
 
 Scenario: Query a Promoption
 
