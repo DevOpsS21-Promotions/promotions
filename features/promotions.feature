@@ -18,7 +18,8 @@ Scenario: The server is running
 Scenario: Create a Promotion
  When I visit the "Home Page"
  And I set the "Name" to "Promo 1"
- And I set the "Description" to "BOGO"
+ And I set the "Description" to "buy one get one"
+ And I set the "Promo Code" to "BOGO"
  And I set the "Start Date" to "2021-06-14 12:00:00"
  And I set the "End Date" to "2021-07-13 12:00:00"
  And I select "True" in the "Active" dropdown
@@ -34,7 +35,8 @@ Scenario: Create a Promotion
  When I paste the "Id" field
  And I press the "Retrieve" button
  Then I should see "Promo 1" in the "Name" field
- And I should see "Bogo" in the "Description" field
+ And I set the "Description" to "buy one get one"
+ And I should see "BOGO" in the "Promo Code" field
  And I should see "2021-06-14 12:00:00" in the "Start Date" field 
  And I should see "2021-07-13 12:00:00" in the "End Date" field
  And I should see "True" in the "Active" dropdown
