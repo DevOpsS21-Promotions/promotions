@@ -40,7 +40,7 @@ Scenario: Create a Promotion
     And I should see "BOGO" in the "Promo_Code" field
     And I should see "2021-06-14 12:00:00" in the "Start_Date" field 
     And I should see "2021-07-13 12:00:00" in the "End_Date" field
-    #And I should see "True" in the "Active" dropdown
+    And I should see "True" in the "Active" dropdown
 
 Scenario: Read a Promotion
 

@@ -47,7 +47,7 @@ $(function () {
         var promo_code = $("#promotion_promo_code").val();
         var start_date = $("#promotion_start_date").val();
         var end_date = $("#promotion_end_date").val();
-        var is_active = $("#promotion_active").val() == "true" ? true : false;
+        var is_active = $("#promotion_active").val() == "true";
         
 
         var data = {
@@ -56,7 +56,7 @@ $(function () {
             "promo_code": promo_code,
             "start_date": start_date,
             "end_date": end_date,
-            "is_active": is_active in ['True', 'true', '1']
+            "is_active": is_active
         };
 
         var ajax = $.ajax({
@@ -89,7 +89,7 @@ $(function () {
         var promo_code = $("#promotion_promo_code").val();
         var start_date = $("#promotion_start_date").val();
         var end_date = $("#promotion_end_date").val();
-        var is_active = $("#promotion_active").val() == "true" ? true : false;
+        var is_active = $("#promotion_active").val() == "true";
 
         var data = {
             "name": name,
@@ -97,7 +97,7 @@ $(function () {
             "promo_code": promo_code,
             "start_date": start_date,
             "end_date": end_date,
-            "is_active": is_active in ['True', 'true', '1']
+            "is_active": is_active
         };
 
         var ajax = $.ajax({
