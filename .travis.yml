@@ -11,7 +11,7 @@ services:
   - postgresql
 
 env:
-  - DATABASE_URI=postgres://postgres:@localhost:5432/testTravis
+  - DATABASE_URI=postgres://postgres:@localhost:5432/testdb
 
 cache: pip
 install:
@@ -19,7 +19,7 @@ install:
   - pip install -r requirements.txt  
 
 before_script:
-  - psql -c 'create database testTravis;' -U postgres
+  - psql -c 'create database testdb;' -U postgres
   - psql --version
   - chromedriver --version
   - gunicorn --log-level=info --bind=127.0.0.1:5000 service:app &
