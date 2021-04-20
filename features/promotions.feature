@@ -23,9 +23,9 @@ Scenario: Update a Promoption
 
 Scenario: Cancel a Promotion
     When I visit the "Home Page"
-    And I set the "Name" to "Sale"
+    And I set the "Name" to "sale"
     And I press the "Search" button
-    Then I should see "Sale" in the "Name" field
+    Then I should see "sale" in the "Name" field
     Then I should see "Discount Price" in the "Description" field
     Then I should see "Offprice" in the "Promo_Code" field
     Then I should see "2021-04-01 12:00:00" in the "Start_Date" field
@@ -37,7 +37,7 @@ Scenario: Cancel a Promotion
     And I press the "Clear" button
     And I paste the "Id" field
     And I press the "Retrieve" button
-    Then I should see "Sale" in the "Name" field
+    Then I should see "sale" in the "Name" field
     Then I should see "False" in the "Active" field
 
 Scenario: Delete a Promoption
