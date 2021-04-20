@@ -71,26 +71,45 @@ Scenario: Read a Promotion
     
 Scenario: Update a Promotion
 
+Scenario: Delete a Promotion
+    When I visit the "Home Page"
+    And I set the "Name" to "Bad Sale"
+    And I set the "Description" to "bad sale"
+    And I set the "Promo_Code" to "badsale"
+    And I set the "Start_Date" to "2021-06-14 12:00:00"
+    And I set the "End_Date" to "2021-07-13 12:00:00"
+    And I select "True" in the "Active" dropdown
+    And I press the "Create" button
+    Then I should see the message "Success"
+    When I copy the "Id" field
+    And I press the "Clear" button
+    Then the "Id" field should be empty
+    And the "Name" field should be empty
+    And the "Description" field should be empty
+    And the "Promo_code" field should be empty
+    And the "Start_Date" field should be empty 
+    And the "End_Date" field should be empty
+    When I paste the "Id" field
+    When I press the "Delete" button
+    Then I should see the message "Promotion has been Deleted!"
+    
 Scenario: Cancel a Promotion
     When I visit the "Home Page"
     And I set the "Name" to "sale"
     And I press the "Search" button
     Then I should see "sale" in the "Name" field
-    Then I should see "Discount Price" in the "Description" field
-    Then I should see "Offprice" in the "Promo_Code" field
-    Then I should see "2021-04-01 12:00:00" in the "Start_Date" field
-    Then I should see "2021-05-01 12:00:00" in the "End_Date" field
-    Then I should see "True" in the "Active" dropdown
-    When I press "Cancel"
+    And I should see "discount price" in the "Description" field
+    And I should see "offprice" in the "Promo_Code" field
+    And I should see "2021-04-01 12:00:00" in the "Start_Date" field
+    And I should see "2021-05-01 12:00:00" in the "End_Date" field
+    And I should see "True" in the "Active" dropdown
+    When I press the "Cancel" button
     Then I should see the message "Promotion has been Canceled"
-    When I copy the "Id" field
-    And I press the "Clear" button
-    And I paste the "Id" field
-    And I press the "Retrieve" button
+    When I press the "Clear" button
+    And I set the "Name" to "sale"
+    And I press the "Search" button
     Then I should see "sale" in the "Name" field
-    Then I should see "False" in the "Active" field
-
-Scenario: Delete a Promoption
+    And I should see "False" in the "Active" dropdown
 
 Scenario: List all Promotions
     When I visit the "Home Page"
