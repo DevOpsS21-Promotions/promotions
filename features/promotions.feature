@@ -27,9 +27,9 @@ Scenario: Cancel a Promotion
     And I press the "Search" button
     Then I should see "Sale" in the "Name" field
     Then I should see "Discount Price" in the "Description" field
-    Then I should see "Offprice" in the "Promo Code" field
-    Then I should see "2021-04-01 12:00:00" in the "Start Date" field
-    Then I should see "2021-05-01 12:00:00" in the "End Date" field
+    Then I should see "Offprice" in the "Promo_Code" field
+    Then I should see "2021-04-01 12:00:00" in the "Start_Date" field
+    Then I should see "2021-05-01 12:00:00" in the "End_Date" field
     Then I should see "True" in the "Active" dropdown
     When I press "Cancel"
     Then I should see the message "Promotion has been Canceled"
