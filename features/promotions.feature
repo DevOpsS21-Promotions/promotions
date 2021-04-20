@@ -42,22 +42,27 @@ Scenario: Cancel a Promotion
 
 Scenario: Delete a Promotion
 
-     When I visit the "Home Page"
-     And I set the "Name" to "Sale"
-     And I press the "Search" button
-     Then I should see "Sale" in the "Name" field
-     Then I should see "Discount Price" in the "Description" field
-     Then I should see "Offprice" in the "Promo_Code" field
-     Then I should see "2021-04-01 12:00:00" in the "Start_Date" field
-     Then I should see "2021-05-01 12:00:00" in the "End_Date" field
-     Then I should see "True" in the "Active" dropdown
-     When I press "Delete"
-     Then the "Id" field should be empty
-     And the "Name" field should be empty
-     And the "Description" field should be empty
-     And the "Promo_Code" field should be empty
-     And the "Start_Date" field should be empty 
-     And the "End_Date" field should be empty
+    When I visit the "Home Page"
+    And I set the "Name" to "Bad Sale"
+    And I set the "Description" to "bad sale"
+    And I set the "Promo_Code" to "badsale"
+    And I set the "Start_Date" to "2021-06-14 12:00:00"
+    And I set the "End_Date" to "2021-07-13 12:00:00"
+    And I select "True" in the "Active" dropdown
+    And I press the "Create" button
+    Then I should see the message "Success"
+    When I copy the "Id" field
+    And I press the "Clear" button
+    Then the "Id" field should be empty
+    And the "Name" field should be empty
+    And the "Description" field should be empty
+    And the "Promo_code" field should be empty
+    And the "Start_Date" field should be empty 
+    And the "End_Date" field should be empty
+    When I paste the "Id" field
+    When I press "Delete"
+    Then I should see the message "Promotion has been Deleted!"
+    
 Scenario: List all Promotions
 
 Scenario: Query a Promoption
