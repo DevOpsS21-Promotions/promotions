@@ -15,16 +15,33 @@ Scenario: The server is running
     Then I should see "Promotion RESTful Service" in the title
     And I should not see "404 Not Found"
 
-Scenario: Create a Promoption
+Scenario: Create a Promotion
 
-Scenario: Read a Promoption
+Scenario: Read a Promotion
 
-Scenario: Update a Promoption
-
-Scenario: Delete a Promoption
+Scenario: Update a Promotion
+    When I visit the "Home Page"
+    And I set the "Name" to "deal"
+    And I press the "Search" button
+    Then I should see "deal" in the "Name" field
+    And I should see "buy one get one free" in the "description" field
+    When I change "Name" to "flash sale"
+    And I press the "Update" button
+    Then I should see the message "Success"
+    When I copy the "Id" field
+    And I press the "Clear" button
+    And I paste the "Id" field
+    And I press the "Retrieve" button
+    Then I should see "flash sale" in the "Name" field
+    When I press the "Clear" button
+    And I press the "Search" button
+    Then I should see "flash sale" in the results
+    Then I should not see "deal" in the results
+    
+Scenario: Delete a Promotion
 
 Scenario: List all Promotions
 
-Scenario: Query a Promoption
+Scenario: Query a Promotion
 
 Scenario: Cancel a Promotion
