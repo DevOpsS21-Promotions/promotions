@@ -51,6 +51,7 @@ class TestPromotionsService(unittest.TestCase):
         """ This runs after each test """
         db.session.remove()
         db.drop_all()
+        db.engine.dispose()
 
     ######################################################################
     #  HELPER FUNCTIONS
