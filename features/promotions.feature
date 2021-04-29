@@ -30,7 +30,7 @@ Scenario: Create a Promotion
     Then the "Id" field should be empty
     And the "Name" field should be empty
     And the "Description" field should be empty
-    And the "Promo Code" field should be empty
+    And the "Promo code" field should be empty
     And the "Start Date" field should be empty 
     And the "End Date" field should be empty
     When I paste the "Id" field
@@ -57,7 +57,7 @@ Scenario: Read a Promotion
     Then the "Id" field should be empty
     And the "Name" field should be empty
     And the "Description" field should be empty
-    And the "Promo Code" field should be empty
+    And the "Promo code" field should be empty
     And the "Start Date" field should be empty 
     And the "End Date" field should be empty
     When I paste the "Id" field
@@ -103,7 +103,7 @@ Scenario: Delete a Promotion
     Then the "Id" field should be empty
     And the "Name" field should be empty
     And the "Description" field should be empty
-    And the "Promo Code" field should be empty
+    And the "Promo code" field should be empty
     And the "Start Date" field should be empty 
     And the "End Date" field should be empty
     When I paste the "Id" field
@@ -120,11 +120,19 @@ Scenario: Cancel a Promotion
     And I should see "2021-04-01 12:00:00" in the "Start Date" field
     And I should see "2021-05-01 12:00:00" in the "End Date" field
     And I should see "True" in the "Active" dropdown
+    When I copy the "Id" field
+    And I press the "Clear" button
+    Then the "Id" field should be empty
+    And the "Name" field should be empty
+    And the "Description" field should be empty
+    And the "Promo code" field should be empty
+    And the "Start Date" field should be empty 
+    And the "End Date" field should be empty
+    When I paste the "Id" field
     When I press the "Cancel" button
     Then I should see the message "Promotion has been Canceled"
-    When I press the "Clear" button
-    And I set the "Name" to "sale"
-    And I press the "Search" button
+    When I paste the "Id" field
+    And I press the "Retrieve" button
     Then I should see "sale" in the "Name" field
     And I should see "False" in the "Active" dropdown
 
@@ -141,7 +149,7 @@ Scenario: Query a Promotion
     And I set the "Name" to "deal"
     And I press the "Search" button
     Then I should see "buy one get one free" in the "Description" field
-    And I should see "b1g1free" in the "Promo Code" field
-    And I should see "2021-04-01 12:00:00" in the "Start Date" field
-    And I should see "2021-05-01 12:00:00" in the "End Date" field
+    And I should see "b1g1free" in the "Promo code" field
+    And I should see "2021-04-01 12:00:00" in the "Start date" field
+    And I should see "2021-05-01 12:00:00" in the "End date" field
     And I should see "True" in the "Active" dropdown

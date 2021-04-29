@@ -5,7 +5,7 @@ from os import getenv
 from selenium import webdriver
 from behave import *
 
-WAIT_SECONDS = 60
+WAIT_SECONDS = 500
 BASE_URL = getenv('BASE_URL', 'http://localhost:5000')
 
 def before_all(context):
