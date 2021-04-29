@@ -51,7 +51,6 @@ class TestPromotions(unittest.TestCase):
     def tearDown(self):
         db.session.remove()
         db.drop_all()
-        db.engine.dispose()
 
     def _create_promotion(self):
         return Promotions(name="Test",
