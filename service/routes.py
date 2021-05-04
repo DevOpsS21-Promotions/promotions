@@ -62,9 +62,9 @@ create_model = api.model('Promotion', {
                               description='The description of the Promotion'),
     'promo_code': fields.String(required=True,
                               description='The promo code of the Promotion'),
-    'start_date': fields.DateTime(required=True,
+    'start_date': fields.String(required=True,
                               description='The start date and time of the Promotion'),    
-    'end_date': fields.DateTime(required=True,
+    'end_date': fields.String(required=True,
                               description='The end date and time of the Promotion'),                        
     'is_active': fields.Boolean(required=True,
                                 description='Is the Promotion active')
@@ -81,9 +81,9 @@ promotion_model = api.model(
                                 description='The description of the Promotion'),
         'promo_code': fields.String(required=True,
                                 description='The promo code of the Promotion'),
-        'start_date': fields.DateTime(required=True,
+        'start_date': fields.String(required=True,
                                 description='The start date and time of the Promotion'),    
-        'end_date': fields.DateTime(required=True,
+        'end_date': fields.String(required=True,
                                 description='The end date and time of the Promotion'),                        
         'is_active': fields.Boolean(required=True,
                                     description='Is the Promotion active')
@@ -213,7 +213,9 @@ class PromotionResource(Resource):
         promotion = Promotions.find(promotion_id)
         if not promotion:
             api.abort(status.HTTP_404_NOT_FOUND, "Promotion with id '{}' was not found.".format(promotion_id))
-        promotion.deserialize(request.get_json())
+        app.logger.debug('Payload = %s', api.payload)
+        data = api.payload
+        promotion.deserialize(data)
         promotion.id = promotion_id
         promotion.update()
         app.logger.info("Promotion with ID [%s] updated.", promotion.id)
@@ -235,7 +237,7 @@ class PromotionResource(Resource):
 ######################################################################
 #  PATH: /promotions
 ######################################################################
-@app.route("/promotions", strict_slashes=False)
+@api.route("/promotions", strict_slashes=False)
 class PromotionCollection(Resource):
     """ Handles all interactions with collections of Promotions """
 
@@ -252,10 +254,9 @@ class PromotionCollection(Resource):
         app.logger.info("Request to create a promotion")
         check_content_type("application/json")
         promotion = Promotions()
-        try:
-            promotion.deserialize(request.get_json())
-        except DataValidationError as dataValidationError:
-            api.abort(status.HTTP_400_BAD_REQUEST, dataValidationError)
+        app.logger.debug('Payload = %s', api.payload)
+        data = api.payload
+        promotion.deserialize(data)
         promotion.create()
         location_url = api.url_for(PromotionResource, promotion_id=promotion.id, _external=True)
         app.logger.info("Promotion with ID [%s] created.", promotion.id)

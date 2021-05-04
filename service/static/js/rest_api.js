@@ -251,17 +251,17 @@ $(function () {
             $("#search_results").append('<table class="table-striped" cellpadding="10">');
             var header = '<tr>'
             header += '<th style="width:5%">ID</th>'
-            header += '<th style="width:30%">Name</th>'
-            header += '<th style="width:30%">Description</th>'
-            header += '<th style="width:10%">Promo_Code</th>'
-            header += '<th style="width:10%">Start_Date</th></tr>'
-            header += '<th style="width:10%">End_Date</th></tr>'
+            header += '<th style="width:18%">Name</th>'
+            header += '<th style="width:18%">Description</th>'
+            header += '<th style="width:18%">Promo_Code</th>'
+            header += '<th style="width:18%">Start_Date</th></tr>'
+            header += '<th style="width:18%">End_Date</th></tr>'
             header += '<th style="width:5%">Is_Active</th></tr>'
             $("#search_results").append(header);
             var firstPromotion = "";
             for(var i = 0; i < res.length; i++) {
                 var promotion = res[i];
-                var row = "<tr><td>"+promotion._id+"</td><td>"+promotion.name+"</td><td>"+promotion.description+"</td><td>"+promotion.promo_code+"</td><td>"+promotion.start_date+"</td><td>"+promotion.end_date+"</td></tr>"+promotion.is_active+"</td></tr>";
+                var row = "<tr><td>"+promotion.id+"</td><td>"+promotion.name+"</td><td>"+promotion.description+"</td><td>"+promotion.promo_code+"</td><td>"+promotion.start_date+"</td><td>"+promotion.end_date+"</td></tr>"+promotion.is_active+"</td></tr>";
                 $("#search_results").append(row);
                 if (i == 0) {
                     firstPromotion = promotion;

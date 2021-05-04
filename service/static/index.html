@@ -61,13 +61,13 @@
               <div class="form-group">
                 <label class="control-label col-sm-2" for="promotion_start_date">Start Date:</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="promotion_start_date" placeholder="Enter start date for Promotion">
+                  <input type="text" class="form-control" id="promotion_start_date" placeholder="Enter start date for Promotion (ex: 2021-01-01 12:00:00)">
                 </div>
               </div>
               <div class="form-group">
                 <label class="control-label col-sm-2" for="promotion_end_date">End Date:</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="promotion_end_date" placeholder="Enter end date for Promotion">
+                  <input type="text" class="form-control" id="promotion_end_date" placeholder="Enter end date for Promotion (ex: 2021-01-01 12:00:00)">
               </div>
               <div class="form-group">
                 <label class="control-label col-sm-2" for="promotion_active">Active:</label>
@@ -90,19 +90,46 @@
         </div>
 
         <!-- Search Results -->
-        <div class="table-responsive col-md-12" id="search_results">
-          <table class="table-striped">
+        <div class="table-responsive table-results col-md-12" id="search_results">
+          <table class="table-striped" cellpadding="10">
             <thead>
             <tr>
-                <th class="col-md-1">ID</th>
-                <th class="col-md-4">Name</th>
-                <th class="col-md-4">Description</th>
-                <th class="col-md-4">Promo Code</th>
-                <th class="col-md-3">Start Date</th>
-                <th class="col-md-3">End Date</th>
-                <th class="col-md-3">Is Active</th>
+                <th valign="center" style="width:5%">
+                  <div class="column-title">
+                    <i class="bi sort-icon bi-sort-numeric-down" id="list-by-id-btn" sort="id"></i>
+                    <span>ID</span>
+                  </div>
+                </th>
+                <th valign="center" style="width:18%">
+                  <div class="column-title">
+                    <span>Name</span>
+                  </div>
+                </th>
+                <th valign="center" style="width:18%">
+                  <div class="column-title">
+                    <span>Description</span>
+                  </div>
+                </th>
+                <th valign="center" style="width:18%">
+                  <div class="column-title">
+                    <span>Promo Code</span>
+                  </div>
+                </th>
+                <th valign="center" style="width:18%">
+                  <div class="column-title">
+                    <span>Start Date</span>
+                  </div>
+                </th>
+                <th valign="center" style="width:18%">
+                  <div class="column-title">
+                    <span>End Date</span>
+                  </div>
+                </th>
+                <th valign="center" style="width:5%">Is Active</th>
             </tr>
             </thead>
+            <tbody id="table-content">
+            </tbody>
           </table>
         </div>
 
