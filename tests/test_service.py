@@ -158,6 +158,28 @@ class TestPromotionsService(unittest.TestCase):
         data = resp.get_json()
         for promotion in data:
             self.assertEqual(promotion["name"], test_name)
+    
+    def test_query_promotion_by_description(self):
+        """ Test query promotion by description"""
+        # get the id of a promotion
+        test_promotion = self._create_and_post_promotion()
+        test_description = test_promotion.description
+        resp = self.app.get("/promotions", query_string="description={}".format(test_description))
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        for promotion in data:
+            self.assertEqual(promotion["description"], test_description)
+    
+    def test_query_promotion_by_promo(self):
+        """ Test query promotion by promo"""
+        # get the id of a promotion
+        test_promotion = self._create_and_post_promotion()
+        test_promo = test_promotion.promo_code
+        resp = self.app.get("/promotions", query_string="promo_code={}".format(test_promo))
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        for promotion in data:
+            self.assertEqual(promotion["promo_code"], test_promo)
 
     def test_get_promotion_not_found(self):
         """ Get an Promotion that is not found """

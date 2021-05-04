@@ -143,3 +143,23 @@ class Promotions(db.Model):
         """
         logger.info("Processing name query for %s ...", name)
         return cls.query.filter(cls.name == name)
+
+    @classmethod
+    def find_by_description(cls, description):
+        """Returns all Promotionss with the given description
+
+        Args:
+            description (string): the description of the Promotionss you want to match
+        """
+        logger.info("Processing description query for %s ...", description)
+        return cls.query.filter(cls.description == description)
+    
+    @classmethod
+    def find_by_promo(cls, promo_code):
+        """Returns all Promotionss with the given promo_code
+
+        Args:
+            promo_code (string): the promo_code of the Promotionss you want to match
+        """
+        logger.info("Processing description query for %s ...", promo_code)
+        return cls.query.filter(cls.promo_code == promo_code)

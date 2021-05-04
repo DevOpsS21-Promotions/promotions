@@ -93,7 +93,8 @@ promotion_model = api.model(
 # query string arguments
 promotion_args = reqparse.RequestParser()
 promotion_args.add_argument('name', type=str, required=False, help='List Promotions by name')
-
+promotion_args.add_argument('description', type=str, required=False, help='List Promotions by description')
+promotion_args.add_argument('promo_code', type=str, required=False, help='List Promotions by promo code')
 ######################################################################
 # Error Handlers
 ######################################################################
@@ -276,8 +277,14 @@ class PromotionCollection(Resource):
         app.logger.info("Request for promotions list")
         promotion = []
         name = request.args.get("name")
+        description = request.args.get("description")
+        promo_code = request.args.get("promo_code")
         if name:
             promotion = Promotions.find_by_name(name)
+        elif description:
+            promotion = Promotions.find_by_description(description)
+        elif promo_code:
+            promotion = Promotions.find_by_promo(promo_code)
         else:
             promotion = Promotions.all()
 
