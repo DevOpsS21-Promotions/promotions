@@ -4,8 +4,11 @@ Models for Promotions
 All of the models are stored in this module
 """
 import logging
+import json
+import os
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from requests import HTTPError, ConnectionError
 
 logger = logging.getLogger("flask.app")
 
